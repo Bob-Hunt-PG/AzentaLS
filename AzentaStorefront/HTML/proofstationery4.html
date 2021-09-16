@@ -1,0 +1,181 @@
+
+
+
+  
+<link href="include/highslide-styles.css" rel="stylesheet" type="text/css" />
+<script type="text/javascript" src="Include/highslide.js"></script>
+ <script type="text/javascript" src="Include/highslide.cfg.js"></script>    
+<script type='text/javascript' src='include/turn/jquery.min.js'></script>
+<script type='text/javascript' src="include/turn/turn.min.js"></script>
+<link href="include/turn/flipper.css" rel="stylesheet" type="text/css" />  
+
+<style type="text/css">
+table.table.proofthumbnail > tbody > tr > td > p {
+    display: none;
+}
+</style>
+
+<SCRIPT language="JavaScript">
+var blnOrder = false
+
+function checkOrder()
+{
+
+	if (blnOrder)
+	{
+		return confirm("Are you sure you want to Order your stationery now?");
+	}
+}
+
+
+function openWin(strURL)
+{
+    var winCurrent
+	winCurrent = window.open(strURL, "", "width=600,height=400,toolbar=0,status=0,location=0,menubar=0,scrollbars=0,resizable=1");
+	winCurrent.focus(); 
+}
+
+function initialiseScreen()
+{
+	getListInfo('{listid}', '');
+	
+	//<!--SEEDS-->
+	getListInfo('{seedlistid}', 1);
+	//<!--/SEEDS-->
+	
+	CheckApproverEmail();
+	if (document.getElementById("spnInsertsList"))
+	{
+		getInsertsInfo();
+	}
+	//<!--JsFlipper-->
+	document.getElementById("flipbook").style.display = '';
+	$("#flipbook").turn({width: {FlipperWidth},height: {FlipperHeight},autoCenter: true});
+	//<!--/JsFlipper-->
+}
+
+
+function showhelp(strHeader, strHelp,evt, blnShow) {
+  
+  var tempX = 0;
+  var tempY = 0;
+  var strVis="hidden";
+  var IE = document.all?true:false;
+  var hp = document.getElementById("help_popup").style;
+
+  document.getElementById("help_header").innerHTML = "";
+  document.getElementById("help_body").innerHTML =  "";
+  hp.visibility = "hidden";
+
+
+  if (blnShow)
+  {
+
+	tempX = mouseXPos(evt);
+	tempY = mouseYPos(evt);
+    document.getElementById("help_header").innerHTML = strHeader;
+    document.getElementById("help_body").innerHTML = strHelp;
+	hp.top = tempY-10 + 'px';
+	hp.left = tempX+20 + 'px';
+	strVis = "visible";
+  }  
+    hp.visibility = strVis;
+
+}
+
+function mouseXPos(evt) {
+	if (evt.pageX) return evt.pageX;
+	else if (evt.clientX){
+		return evt.clientX + (document.documentElement.scrollLeft ?
+		document.documentElement.scrollLeft :
+		document.body.scrollLeft);
+	}
+	else return null;
+}
+
+function mouseYPos(evt) {
+	if (evt.pageY) return evt.pageY;
+	else if (evt.clientY){
+		return evt.clientY + (document.documentElement.scrollTop ?
+		document.documentElement.scrollTop :
+		document.body.scrollTop);
+	}
+	else return null;
+}
+	function functionOnLoad(){
+		initialiseScreen();
+	}
+	function getZoom(strLink)
+	{       
+		document.getElementById("hsZoom").href = strLink;
+		hs.expand(document.getElementById("hsZoom"), {objectType: 'iframe', outlineType: 'rounded-white', wrapperClassName: 'highslide-white', outlineWhileAnimating: true, preserveContent: false} )
+	}
+	hs.registerOverlay({thumbnailId: 'hsZoom', overlayId: 'closebutton', position: 'top right', fade: 2});
+</SCRIPT>
+
+<div style="visibility: hidden; position: absolute; filter:alpha(opacity=85); -moz-opacity:0.85; opacity: 0.85; z-index: 1; top: 5px; left: 5px; width:200px;" id="help_popup"> 
+<IFRAME id="frTest" style="z-index:-1;width:200px;height:200;position:absolute;top:0;left:0;display:inline;" frameborder=0 scrolling=no marginwidth=0 src="" marginheight=0></iframe>
+  <table class="bordertable" width="200">
+    <tr><td class=bordertableheader id="help_header"></td></tr>
+    <tr><td id="help_body"></td></tr>
+  </table>
+</div>
+
+<div class="loading hide">
+	<div class="loading-background">
+		<div class="loading-text">
+			<h3>We are adding your product to the cart.</h3>
+			<h3>Please wait...</h3>
+		</div>
+		<div class="loading-icon">
+			<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+		</div>
+	</div>
+</div>
+
+<!--TabTableStart-->
+<form class="proofthumbnailform" action="Step5Edit.asp" method="POST">
+	<input type="hidden" name="torder3" id="torder3" value="{torder}" />
+	<!--HiddenVariables-->
+	<!--HiddenEVariables-->
+	<table class="table proofthumbnail">
+		<!--EditArtWork-->
+		<tr>
+			<td class=bordertableheader>
+				<!--EditArtworkDetailsButton-->
+				<input class="btn btn-primary" type="submit" value="{ButtonEditArtworkDetailsCaption}">
+				<!--/EditArtworkDetailsButton-->&nbsp;
+			</td>
+		</tr>
+		<!--/EditArtWork-->
+		<!--FlipBook-->
+		<tr>
+			<td>
+				<div id="flipbook" style="display:none">
+				  <div  class="hard">{JPGProofFlip1}</div>
+				  <div>{JPGProofFlip2}</div>
+				  <div>{JPGProofFlip3}</div>
+				  <div  class="hard">{JPGProofFlip4}</div>
+				</div>
+			</td>
+		</tr>
+		<!--/FlipBook-->
+		<!--fthumb-->
+		<tr>
+			<td>
+				{FrontFile}<a class="highslide" href="#" id="hsZoom"></a>
+				<div id="closebutton" class="highslide-overlay closebutton"	onclick="return hs.close(this)" title="Close"></div>
+			</td>
+		</tr>
+		<!--/fthumb-->
+		<!--bthumb-->
+		<tr>
+			<td>{BackFile}</td>
+		</tr>
+		<!--/bthumb-->   
+	</table>
+</form>
+<div class="proofrhs">
+	!user/proofRHS.htm!
+</div>
+<!--TabTableEnd-->

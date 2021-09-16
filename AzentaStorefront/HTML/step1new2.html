@@ -1,0 +1,744 @@
+
+<SCRIPT SRC="include/validation.js" ID=clientEventHandlersJS LANGUAGE=javascript></SCRIPT>
+<script language="JavaScript">				
+	function functionOnLoad(){
+	SetOptions();
+	if (document.Form1.selectBack != null)	{ShowThumb(document.Form1.selectBack, false)};
+	HideRedundantDropDown(true);
+	}
+
+function SetOptions()
+{
+	var strDisplay = "";
+
+	if (document.Form1.selectFront == null) return true;
+	if (document.Form1.selectFront.value != '')
+	{
+		UpdateBoxCount(document.Form1.selectFront);
+
+		if (eval('Template' + document.Form1.selectFront.value + 'CopyAddress')==2)
+		{
+			strDisplay = "none";
+		}
+	}
+	else
+	{
+		strDisplay = "none"
+	}
+
+	document.getElementById('trcopy').style.display = strDisplay;
+	if(document.getElementById('EIFGroupNameList').value!='') EIFGroupClicked('');
+	return true;
+
+}
+
+
+function isWhitespace (strCurrent)
+
+{   var i;
+	var whitespace = " \t\n\r";
+	
+    if (isEmpty(strCurrent)) return true;
+
+    for (i = 0; i < strCurrent.length; i++)
+    {   
+        var c = strCurrent.charAt(i);
+
+        if (whitespace.indexOf(c) == -1) return false;
+    }
+    
+    return true;
+}
+
+function isEmpty(strCurrent)
+{  
+	return ((strCurrent == null) || (strCurrent.length == 0))
+}
+
+
+
+function ValidData()
+{
+
+	//if (document.Form1.selectFront.selectedIndex <= 0){alert('{JSSelectFrontCaption}');return false;}
+
+	if (eval('Template' + document.Form1.selectFront.value + 'BackRequired')==1)
+	{
+		if (document.Form1.selectBack.value == ''){alert('{JSSelectBackCaption}');return false;}
+	}
+	
+	if(document.Form1.TotalQuantity)
+	{
+		if(!String(document.Form1.TotalQuantity.value).match(/^\d+$/))
+		{
+			alert('{JSSelectNumericCaption}');
+			document.Form1.TotalQuantity.focus();
+			return false;
+		} else
+		{
+			if (document.Form1.TotalQuantity.value < 1)
+			{
+				alert("{JSSelectNumericCaption}");
+				document.Form1.TotalQuantity.focus();
+				return false;
+			}
+		}
+	}
+
+	<!--CopyAddressLogic-->
+	<!--PONumberLogic-->
+	<!--ExtraInfoLogic-->
+	<!--DeliveryAddressLogic-->
+
+	EnableFields();
+	
+	return true;
+}
+	
+	<!--ExtraInfoFunctions-->
+	
+function EnableFields()
+{
+	var objElements;
+	var i;
+
+	objElements = document.getElementsByTagName("input");
+
+	for (i=0;i<objElements.length;i++)
+	{
+		if (objElements[i].disabled){objElements[i].value = "";}
+		objElements[i].disabled = false;
+	}
+	
+	objElements = document.getElementsByTagName("select");
+	for (i=0;i<objElements.length;i++)
+	{
+		if (objElements[i].disabled){objElements[i].selectedIndex = "0";}
+		objElements[i].disabled = false;
+	}
+}
+
+function oldUpdateBoxCount(cboxCur)
+{
+
+	if (cboxCur.selectedIndex==0)return true;
+	
+	var intCount = eval('TemplateQty' + cboxCur[cboxCur.selectedIndex].value);
+
+	var intUnitQty = eval('TemplateUnitQty' + cboxCur[cboxCur.selectedIndex].value);
+
+	var intTmp = document.Form1.Quantity.length;
+
+	//if (intTmp == intCount)return true;
+	
+	if (intTmp < intCount)
+	{
+		for (var i=intTmp+1; i<=intCount; i++)
+		{
+			document.Form1.Quantity.options[document.Form1.Quantity.length] = new Option(i*intUnitQty, i);
+		}
+	}
+	else
+	{
+		for (var i=intTmp; i>=intCount; i--)
+		{
+			document.Form1.Quantity.remove(i);
+		}
+	}	
+}
+
+
+function UpdateBoxCount(cboxCur)
+{
+	//<!--QuantityJavascript-->
+	var intTmp = document.Form1.Quantity.selectedIndex;
+	var intCount = 0;
+	var intUnitQty = 0;
+	var aryQtys=new Array();
+	var aryQtysPrice1=new Array();
+	var aryQtysPrice2=new Array();
+	var iPrice=0;
+	var sCurrencyCode='';
+	//<!--QuantityPrice-->
+	//<!--/QuantityPrice-->
+
+	if (intTmp == -1)intTmp = 0;
+	while (document.Form1.Quantity.length > 0){document.Form1.Quantity.remove(0)}
+
+	//if (cboxCur.selectedIndex!=0)
+	{
+		intCount = eval('TemplateQty' + cboxCur[cboxCur.selectedIndex].value);
+		intUnitQty = eval('TemplateUnitQty' + cboxCur[cboxCur.selectedIndex].value);
+		aryQtys = eval('TemplateQtys' + cboxCur[cboxCur.selectedIndex].value);
+	}
+
+	for (var i=0; i<aryQtys.length; i++)
+	{
+		iPrice=0;
+		for (var iCntr=0; iCntr<aryQtysPrice1.length; iCntr++)
+		{
+			if (aryQtys[i]*intUnitQty == aryQtysPrice1[iCntr])
+			{
+				iPrice = aryQtysPrice2[iCntr];
+			}
+		}
+		if (sCurrencyCode == '&euro;')
+		{
+			sCurrencyCode = String.fromCharCode(8364)
+		}
+		if (iPrice != 0)
+		{
+			document.Form1.Quantity.options[document.Form1.Quantity.length] = new Option(aryQtys[i]*intUnitQty + ' - (' + sCurrencyCode + iPrice + ')', aryQtys[i]);
+		} else {
+			document.Form1.Quantity.options[document.Form1.Quantity.length] = new Option(aryQtys[i]*intUnitQty, aryQtys[i]);
+		}
+	}
+
+
+	if (intTmp >= document.Form1.Quantity.length){intTmp=0;}
+
+	document.Form1.Quantity.selectedIndex=intTmp;
+	
+	if(document.Form1.Quantity.length == 0){document.Form1.btnSubmit.style.display = "none";}
+	else{document.Form1.btnSubmit.style.display = "inline";}
+	//<!--/QuantityJavascript-->
+}
+
+function CheckEntryCustomize(strMsg, strCaption, strLength)
+{
+	strMsg = strMsg.replace('{Caption}', strCaption);
+	strMsg = strMsg.replace('{Length}', strLength);
+	return strMsg;
+}
+
+function CheckEntry(ctrlCur, strCaption, blnRequired, strLength, strType, strErrorMessage)
+{
+	var strTempMsg = strErrorMessage;
+	
+	if ((isWhitespace(document.Form1.elements[ctrlCur].value)) && blnRequired)
+	{
+		if (strTempMsg != ''){
+			alert(strTempMsg);
+		}
+		else{
+			alert(CheckEntryCustomize('{JSEnterValueCaption}', strCaption, ''));
+		}
+		
+		document.Form1.elements[ctrlCur].focus();
+		return false;
+	}
+	
+	if (strLength != '')
+	{
+
+		var intLen = parseInt(strLength);
+
+		if (intLen != 0)
+		{
+			if ((document.Form1.elements[ctrlCur].value.length != intLen) && (strType == 'exactly'))
+			{
+				if ((blnRequired == false) && (document.Form1.elements[ctrlCur].value.length==0))return true;
+				if (strErrorMessage == ''){strTempMsg=CheckEntryCustomize('{JSEnterLengthCaption}', strCaption, strLength)}
+				alert(strTempMsg);
+				return false;
+			}
+			
+			if ((document.Form1.elements[ctrlCur].value.length < intLen) && (strType == 'at least'))
+			{
+				if ((blnRequired == false) && (document.Form1.elements[ctrlCur].value.length==0))return true;
+				if (strErrorMessage == ''){strTempMsg=CheckEntryCustomize('{JSEnterAtLeastLengthCaption}', strCaption, strLength)}
+				alert(strTempMsg);
+			}
+
+			if ((document.Form1.elements[ctrlCur].value.length > intLen) && (strType == 'at most'))
+			{
+				if ((blnRequired == false) && (document.Form1.elements[ctrlCur].value.length==0))return true;
+				if (strErrorMessage == ''){strTempMsg=CheckEntryCustomize('{JSEnterAtMostLengthCaption}', strCaption, strLength)}
+				alert(strTempMsg);
+				return false;
+			}
+		}
+	}
+
+	
+	return true;
+}
+
+
+function HasSelected(ctrlRadio, strCaption)
+{
+if (ctrlRadio.value==null)
+{
+	for(var i=0; i < ctrlRadio.length; i++)
+	{
+		if (ctrlRadio(i).checked)
+		{
+			return true;
+			break;
+		}
+	}
+}
+else
+{
+return true;
+}
+alert(CheckEntryCustomize('{JSSelectCaptionCaption}', strCaption, ''));
+return false;
+}
+
+function ShowThumb(cboCur, blnFront)
+{
+	var strImage;
+	var aryCur = new Array();
+	var intBackIndex;
+	var intBorder;
+	var blnBackRequired;
+
+	intBorder = 1;
+
+	if (blnFront == true)
+	{
+
+		if (document.Form1.selectBack != null)
+		{
+			document.Form1.imgBack.src = 'images/spacer.gif';
+			document.Form1.imgBack.border=0;
+			while (document.Form1.selectBack.options.length > 0)document.Form1.selectBack.remove(0);
+		}
+
+
+	}
+
+	strImage = '';
+	if (cboCur.value != '')strImage = eval('Image' + cboCur.value);
+	if (strImage == '')
+	{
+		strImage = "images/spacer.gif";
+		intBorder = 0;
+	}
+
+
+
+	if (blnFront == true)
+	{	
+		var intNewIndex;
+
+		document.Form1.imgFront.src = strImage;
+		document.Form1.imgFront.border = intBorder;
+
+		if ((document.Form1.selectBack != null) && (cboCur.value !=''))
+		{
+			aryCur = eval('Template' + cboCur.value);
+
+			blnBackRequired = eval('Template' + cboCur.value + 'BackRequired');
+
+			intBackIndex = document.Form1.selectBack.selectedIndex;
+			if (intBackIndex != -1)intBackIndex = document.Form1.selectBack.options[intBackIndex].value;
+
+			while (document.Form1.selectBack.options.length > 0)document.Form1.selectBack.remove(0);
+			
+			if (blnBackRequired==0) document.Form1.selectBack.options[0] = new Option('', '');
+
+			intNewIndex = 0;
+			for (var i=0; i< aryCur.length; i++)
+			{
+				document.Form1.selectBack.options[document.Form1.selectBack.length] = new Option(eval('TemplateBack' + aryCur[i]), aryCur[i]);
+				if (intBackIndex != -1)
+				{
+					if (aryCur[i] == intBackIndex)
+					{
+						intNewIndex = i+1;
+					}
+				}
+			}
+			document.Form1.selectBack.selectedIndex = intNewIndex;
+			ShowThumb(document.Form1.selectBack, false);
+		}
+	}
+	else
+	{
+		document.Form1.imgBack.src = strImage;
+		document.Form1.imgBack.border=intBorder;
+	}
+
+
+	if (blnFront)
+	{
+		switch(cboCur.value)
+		{
+<!--DataEntryModeLogic-->
+		}
+	}
+
+	SetOptions();
+	HideRedundantDropDown(blnFront);
+}
+
+function HideRedundantDropDown(blnFront)
+{
+	if	(document.getElementById("SelectOneOptionFront"))
+	{
+		if (blnFront == true)
+		{	
+			if (document.Form1.selectFront.options.length == 1)
+			{
+				document.getElementById("SelectOneOptionFront").innerHTML = document.Form1.selectFront.options[0].text;
+				document.getElementById("SelectOneOptionFront").style.display = '';
+				document.getElementById("SelectManyOptionsFront").style.display = 'none';
+			} else
+			{
+				document.getElementById("SelectOneOptionFront").innerHTML = '';
+				document.getElementById("SelectManyOptionsFront").style.display = '';
+				document.getElementById("SelectOneOptionFront").style.display = 'none';
+			}
+		}
+		else
+		{
+			if (document.Form1.selectBack.options.length == 1)
+			{
+				document.getElementById("SelectOneOptionBack").innerHTML = document.Form1.selectBack.options[0].text;
+				document.getElementById("SelectOneOptionBack").style.display = '';
+				document.getElementById("SelectManyOptionsBack").style.display = 'none';
+			} else
+			{
+				document.getElementById("SelectOneOptionBack").innerHTML = '';
+				document.getElementById("SelectManyOptionsBack").style.display = '';
+				document.getElementById("SelectOneOptionBack").style.display = 'none';
+			}
+		}
+		
+	}
+}
+
+function ShowDECheck(blnShow, blnOn)
+{
+
+}
+
+function ShowBacks(strIds)
+{
+	var strValue;
+		
+	for (var i=0; i<document.Form1.elements['rdoBack'].length;i++)
+	{
+		strValue = '|' + document.Form1.elements['rdoBack'][i].value + '|';
+		if (strValue != "||")
+		{
+			if (strIds.indexOf(strValue) == -1)
+			{
+				document.Form1.elements['rdoBack'][i].disabled= true;
+				document.Form1.elements['rdoBack'][i].checked = false;			
+			}
+			else
+			{
+				document.Form1.elements['rdoBack'][i].disabled= false;
+			}
+		}
+	}
+	
+}
+
+function openHelp(strURL)
+{
+    var winCurrent
+	winCurrent = window.open(strURL, "", "width=450,height=400,toolbar=0,status=0,location=0,menubar=0,scrollbars=1,resizable=1");
+	winCurrent.focus(); 
+}
+
+function popup(strUrl)
+{
+  var winEd
+  winEd = window.open(strUrl,"","width=620,height=320,toolbar=0,status=0,location=0,menubar=0,scrollbars=1,resizable=1");
+  winEd.focus();
+}
+
+function checkOrderDetails()
+{
+	if(document.getElementById("orderdetails").getElementsByTagName("tr").length <= 1) document.getElementById("orderdetails").style.display='none';
+}
+
+function EIFGroupClicked(strVal)
+{
+	var aryGroups;
+	var iCntr=0;
+	var children;
+	var i;
+	var strGNList=document.getElementById('EIFGroupNameList').value;
+	
+	if(strVal == '')
+	{
+		for (i=0;i<document.Form1.eifgroup.length;i++) 
+		{
+			  if (document.Form1.eifgroup[i].checked) 
+			  { 
+					 strVal = document.Form1.eifgroup[i].value; 
+			  } 
+		}
+		if (strVal == '')
+		{
+			document.Form1.eifgroup[0].checked = true;
+			strVal = document.Form1.eifgroup[0].value;
+		}
+	}
+
+	aryGroups = strGNList.split("|");
+	for (iCntr=0;iCntr<aryGroups.length;iCntr++)
+	{
+		children = document.getElementById('div' + aryGroups[iCntr]).getElementsByTagName('*');
+		for (i=0;i<children.length;i++)
+		{
+				if(children[i].type=="text" || children[i].type=="select-one")
+				{
+					children[i].disabled = true;
+				}
+		}
+
+		children = document.getElementsByName("GroupItem" + aryGroups[iCntr]);
+
+		for (i=0;i<children.length;i++)
+		{
+			setOpacity(50, children[i]);
+		}
+	}
+	
+	
+	
+	children = document.getElementById('div' + strVal).getElementsByTagName('*');
+	for (i=0;i<children.length;i++)
+	{
+		children[i].disabled = false;
+		setOpacity(100, children[i]);
+	}
+}
+
+function setOpacity(opacity, objObject)
+{
+	// IE/Win
+	objObject.style.filter = "alpha(opacity:"+opacity+")";
+	objObject.style.zoom = 1;
+
+	// Safari<1.2, Konqueror
+	objObject.style.KHTMLOpacity = opacity/100;
+  
+	// Older Mozilla and Firefox
+	objObject.style.MozOpacity = opacity/100;
+  
+	// Safari 1.2, newer Firefox and Mozilla, CSS3
+	objObject.style.opacity = opacity/100;
+}
+ 
+
+</script>
+
+<!--TabTableStart-->
+<!--DynamicCostCentres-->
+<form name="frmCCs" method="Post">
+	<table class="table">
+		<thead>
+			<tr>
+				<th colspan="2">{CostCentreCaption}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td>{SelectCostCentreCaption}</td>
+				<td>{CostCentres}</td>
+			</tr>
+		</tbody>
+	</table>
+</form>
+<!--/DynamicCostCentres-->
+<form name="Form1" method="Post" onSubmit="return ValidData()">
+	<!--Style-->
+	<table class="table style">
+		<thead>
+			<tr>
+				<th colspan="2">{StyleHeading}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!--FrontBackStyle-->
+			<tr>
+				<td class="style-title">{{frontback}Caption}</td>
+				<td>
+					<div id=SelectOneOption{frontback}></div>
+					<div id=SelectManyOptions{frontback}>
+						<select onchange="{styleonchange}" name="select{frontback}" id="select{frontback}">{options}</select>
+					</div>
+        			<img id="img{frontback}" src="{imagesrc}" border="{imageborder}" alt="{imagealt}">
+				</td>
+			</tr>
+			<!--/FrontBackStyle-->
+
+			<tr id=trcopy style="display:{showcopy}">
+				<!--DefaultAddresses-->
+				<td class="style-title">{StationeryAddressCaption}</td>
+				<td>{DefaultAddresses}</td>
+				<!--/DefaultAddresses-->
+			</tr>
+		</tbody>
+	</table>
+
+	<table class="table orderdetails" id="orderdetails">
+		<thead>
+			<tr>
+				<th colspan="3">{OrderDetailsHeading}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!--CostCentres-->
+			<tr>
+				<td class="orderdetails-title">{CostCentreCaption}</td>
+				<td>{CostCentres}</td>
+			</tr>
+			<!--/CostCentres-->
+			<!--Quantity-->
+			<tr>
+				<td class="orderdetails-title">{QuantityCaption}</td>
+				<td>{quantity}</td>
+			</tr>
+			<!--/Quantity-->
+			<!--PONumber-->
+			<tr id="ponumberbox">
+				<td class="orderdetails-title">{PONumberCaption}</td>
+				<td><input type="text" value="{PONumber}" name="PONumber" class="TextBoxText" size ="10"></td>
+			</tr>
+			<!--/PONumber-->
+			<!--ExtraInfos-->
+			<tr>
+				<td class="orderdetails-title">{ExtraInfoCaption}</td>
+				<td>{ExtraInfoField}{cclink}</td>
+			</tr>
+			<!--/ExtraInfos-->
+			<!--ExtraInfoGroup-->
+			<tr>
+				<td colspan=2>
+					<div id="div{GroupName}">
+						<table class="table">
+							<tr>
+								<td colspan="2">
+									<!--ExtraInfoGroupSelect-->
+									<input type="radio" name="eifgroup" value="{GroupName}" onClick="EIFGroupClicked(this.value)" {GroupSelected}>
+									<!--/ExtraInfoGroupSelect-->
+									&nbsp;{GroupName}
+								</td>
+							</tr>
+							<!--ExtraInfosGroup-->
+							<tr>
+								<td><span name="GroupItem{GroupName}" id="GroupItem{GroupName}">{ExtraInfoCaption}</span></td>
+								<td><span name="GroupItem{GroupName}" id="GroupItem{GroupName}">{ExtraInfoField}</span></td>
+							</tr>
+							<!--/ExtraInfosGroup-->
+						</table>
+					</div>
+				</td>
+			</tr>
+			<!--/ExtraInfoGroup-->
+		</tbody>
+	</table>
+
+	<input type=hidden id="EIFGroupNameList" value="{EIFGroupNameList}">
+	<script>checkOrderDetails();</script>
+
+	<!--DeliveryScreenTip-->
+	<table class="table">
+		<tr>
+			<td colspan="3"><blockquote>{DeliveryHelpText}</blockquote></td>
+		</tr>
+	</table>
+	<!--/DeliveryScreenTip-->
+
+	<!--DeliveryDetails-->
+	<table class="table">
+		<thead>
+			<tr>
+				<th colspan="3">{DeliveryDetailsHeading}</th>
+			</tr>
+		</thead>
+		<tbody>
+			<!--DeliveryAddressCompany-->
+			<tr>
+				<td>{CompanyNameCaption}</td>
+				<td><input type=Text class=textboxtext Name=AddressCompany size="30"></td>
+			</tr>
+			<!--/DeliveryAddressCompany-->
+
+			<!--DeliveryAttention-->
+			<tr>
+				<td>{AttentionToCaption}</td>
+				<td><input type=Text class=textboxtext Name=AttentionTo size="30"></td>
+			</tr>
+			<!--/DeliveryAttention-->
+
+			<!--DefaultDeliveryAddress-->
+			<tr>
+				<td colspan="2">{DeliveryAddresses}</td>
+			</tr>
+			<!--/DefaultDeliveryAddress-->
+
+			<!--DeliveryAddressPhoneNumber-->
+			<tr>
+				<td>{ContactPhoneNumberCaption}</td>
+				<td><input type=Text class=textboxtext Name=AddressPhoneNumber size="30"></td>
+			</tr>
+			<!--/DeliveryAddressPhoneNumber-->
+
+			<!--AdDef-->
+			<tr>
+				<td>{SelectDeliveryAddressCaption}</td>
+				<td class="TextBoxText">{DeliveryAddresses}</td>
+			</tr>
+			<!--/AdDef-->
+
+			<!--AdStat-->
+			<tr>
+				<td>{AdOrStat} {StationeryAddressCaption}</td>
+				<td><input type=checkbox name=DelAddrStat{useaddress}></td>
+			</tr>
+			<!--/AdStat-->
+
+			<!--AdFree-->
+			<tr>
+				<td>{AdOrEnter} {EnterDeliveryAddressCaption}</td>
+				<td>
+					<table class="table">
+						<tr>
+							<td>{Address1Caption}</td>
+							<td colspan="2">{Address2Caption}</td>
+							<td>{Address3Caption}</td>
+						</tr>
+						<tr>
+							<td><input type=Text class=textboxtext Name=Address1 size="15"></td>
+							<td colspan="2"><input type=Text class=textboxtext Name=Address2 size="15"></td>
+							<td><input type=Text class=textboxtext Name=Address3 size="15"></td>
+						</tr>
+						<tr>
+							<td>{SuburbCaption}</td>
+							<td>{StateCaption}</td><td>{PostcodeCaption}</td><td>{CountryCaption}</td>
+						</tr>
+						<tr>
+							<td><input type=Text class=textboxtext Name=Suburb size="15"></td>
+							<td><input type=Text class=textboxtext Name=State size="5"></td>
+							<td><input type=Text class=textboxtext Name=PostCode size="5"></td>
+							<td><input type=Text class=textboxtext Name=Country size="15"></td>
+						</tr>
+					</table>
+				</td>
+			</tr>
+			<!--/AdFree-->
+		</tbody>
+	</table>
+	<!--/DeliveryDetails-->
+
+	<table class="table buttons">
+		<tbody>
+			<tr>
+				<td align="right">
+					<input class="btn btn-primary" type="button" name="btnBack" id="btnBack" value="{BackButtonCaption}" onClick="window.history.back()">&nbsp;<input class="btn btn-primary" type="submit" value="{NextButtonCaption}" id="btnSubmit" name="btnSubmit">
+				</td>
+			</tr>
+		</tbody>
+	</table>
+	<!--/Style-->
+</form>
+<!--TabTableEnd-->

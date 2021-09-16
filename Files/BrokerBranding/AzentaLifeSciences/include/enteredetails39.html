@@ -1,0 +1,1450 @@
+
+
+<script type="text/javascript" src="Include/highslide.js"></script>
+<script type="text/javascript" src="Include/highslide.cfg.js"></script>
+
+<!--CKeditor-->
+<script type='text/javascript' src='Include/ckeditor/ckeditor.js?4'></script>
+<!--/CKeditor-->
+
+<!--redactor-->
+
+<script src="JSCheck/Include.js" type="text/javascript" language="javascript1.1"></script>
+<SCRIPT SRC="include/validation.js" ID=clientEventHandlersJS LANGUAGE=javascript></SCRIPT>
+<script src="include/ajax.js"></script>
+<script type="text/javascript" language="javascript">
+
+	function showSave(blnShow)
+	{
+		var strDisplay='none';
+
+		if (document.getElementById('chkSave'))
+		{
+			if (document.getElementById('chkSave').checked)strDisplay='';
+			document.getElementById('spnSave').style.display=strDisplay;			
+		}
+	}
+        
+    function functionOnLoad(){
+	    var blnValidateLoad;
+		showSave(false);
+		loadSelectImages();
+		blnValidateLoad = validateLoad();
+		if (document.getElementById('btnPreview') != undefined) RefreshProof();
+		return blnValidateLoad;
+	}
+
+	function validateField(curInput)
+	{
+	  <!--validateField-->
+	  <!--visibleField-->
+	}
+	
+	function loadSelectImages(){
+		var strFieldName = "";
+		var intCount = 1;
+		var intPos; 
+		var intCurrentFieldId;
+		var intPreviousFieldId;
+		var elem = document.getElementById("Form1").elements;
+		for(var i = 0; i < elem.length; i++){
+			strFieldName = "" + elem[i].name + "";
+			intPos=strFieldName.indexOf('pdfs_id');
+			if (intPos > -1)
+			{
+				intCurrentFieldId = strFieldName.substring(intPos+7, strFieldName.length);
+			}
+			if (intCurrentFieldId != intPreviousFieldId){
+				if(elem[i].value != '' && elem[i].type != "hidden"){
+					ShowThumb(elem[i], intCount);
+				}
+				intCount++;
+				intPreviousFieldId = intCurrentFieldId;
+			}
+		}
+	}
+
+	function validateForm()
+	{
+		var blnOverwrite = false;
+		var blnOWOK = false
+	<!--validateSubmit-->
+	<!--validateForm-->
+		if (document.getElementById('chkSave'))
+		{
+			if (document.getElementById('chkSave').checked)
+			{
+				
+				if(document.getElementById('chkSave').checked) 
+				{
+
+					if(document.getElementById('rdoSaveOver'))
+					{
+						if (document.getElementById('rdoSaveOver').checked)
+						{
+							blnOverwrite = true;
+							if (document.getElementById('cboSaveOver').value != '')blnOWOK = true;
+						}
+					}
+					if (blnOverwrite)
+					{
+						if (blnOWOK)
+						{
+							return true;
+						}
+						else
+						{
+							alert('Please select a previously saved item to overwrite. Otherwise, choose the \'Save As\' option above and enter a new name');
+							return false;
+						}
+					}
+					else
+					{
+						if (document.getElementById('txtSaveAs').value =='')
+						{
+							alert('Please enter a name to save your template\'s data as');
+							return false;
+						}
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	function hasValue(strName)
+	{
+	<!--hasvalue-->
+		return true;
+	}
+
+	function validateLoad()
+	{
+	<!--validateLoad-->
+		return true;
+	}
+
+	function ShowThumb(cboxCur, intIndex)
+	{
+	<!--ImageJava-->
+	}
+	function SpellWindow(strFieldName){
+	  var oSpell = new JavaScriptSpellCheck();
+	  oSpell.spellCheckWindow(strFieldName);
+	}
+
+	function limitText(limitField, limitNum) {
+		if (limitField.value.length > limitNum) {
+			limitField.value = limitField.value.substring(0, limitNum);
+			document.getElementById(limitField.id + "MaxChars").innerHTML = '<br>{JSMaxCharsCaption}';
+		
+		}
+			else{
+					document.getElementById(limitField.id + "MaxChars").innerHTML = "";
+			}
+	}
+
+	function PartialEscape (strInput)
+	{	var strTemp;
+		strTemp = strInput.replace(/%/g,'%25'); 
+		strTemp = strTemp.replace(/(\r\n|[\r\n])/g,'%0D%0A'); //Escape carrage returns - line feeds 
+		strTemp = strTemp.replace(/&/g,'%26');  
+		strTemp = strTemp.replace(/\+/g,'%2B');  
+		strTemp = strTemp.replace(/ /g,'%20');  
+		return strTemp;
+	}
+
+	function RefreshProof() 
+	{
+		 var strURL = '';
+		 for(var i=0; i < document.getElementById('Form1').elements.length; i++)
+		  {
+		  if (i != 0) strURL += '&';
+		  if (document.getElementById('Form1').elements[i].name!='chkSave') strURL += document.getElementById('Form1').elements[i].name + '=' + PartialEscape(document.getElementById('Form1').elements[i].value);
+		  }
+		document.getElementById("spnLiveProof").innerHTML="<img src='images/process.gif' width=20>";
+		document.getElementById("btnPreview").style.display='none';
+		if(!AjaxPost("ShowProofAJAX.asp?type=refreshproof",stateChanged,strURL,false ))
+		{
+			document.getElementById("spnLiveProof").innerHTML = "Browser doesn't support AJAX";
+		}
+		else
+		{
+			document.getElementById("spnLiveProof").innerHTML='';
+			document.getElementById("btnPreview").style.display='';
+		}  
+		getProofs(xmlHttp.responseText)
+		if (document.PreviewHsRegistration != undefined) PreviewHsRegistration();
+
+	}
+	
+	function getProofs(strText)
+	{
+		var aryProofs = strText.split('<!--split-->');
+		if (document.getElementById('spnPDFProof'))document.getElementById('spnPDFProof').innerHTML = aryProofs[0];
+		
+		if ((document.getElementById('spnFrontProof')) && (aryProofs.length > 1))document.getElementById('spnFrontProof').innerHTML = aryProofs[1];
+		if ((document.getElementById('spnBackProof')) && (aryProofs.length > 2))document.getElementById('spnBackProof').innerHTML = aryProofs[2];
+	}
+	
+	
+	function stateChanged() {};
+
+	function openWin(strURL)
+	{
+		var winCurrent
+		winCurrent = window.open(strURL, "", "width=600,height=400,toolbar=0,status=0,location=0,menubar=0,scrollbars=0,resizable=1");
+		winCurrent.focus(); 
+	}
+
+	
+
+</script>
+<!--headerson-->
+  <STYLE>
+   body {padding:0px;background-image:url(images/spacer.gif);background-color:#ffffff}
+   .bodyWrap{margin:5px}
+  </STYLE>
+<!--/headerson-->
+<style type="text/css">
+
+.highslide-html-content
+{
+    DISPLAY: none;
+    POSITION: absolute
+}
+.controlbar5
+{
+    BACKGROUND: url(highslidegraphics/controlbar5.gif);
+    FLOAT: right;
+    WIDTH: 83px;
+    HEIGHT: 18px
+}
+.controlbar5 A
+{
+    DISPLAY: block;
+    FLOAT: left;
+    HEIGHT: 18px
+}
+.controlbar5 A:hover
+{
+    BACKGROUND-IMAGE: url(highslidegraphics/controlbar5-hover.gif)
+}
+.controlbar5 .previous
+{
+    WIDTH: 20px
+}
+.controlbar5 .next
+{
+    BACKGROUND-POSITION: -20px 0px;
+    WIDTH: 20px
+}
+.controlbar5 .highslide-move
+{
+    BACKGROUND-POSITION: -40px 0px;
+    WIDTH: 20px
+}
+.controlbar5 .close
+{
+    BACKGROUND-POSITION: -60px 0px;
+    WIDTH: 20px
+}
+
+
+.highslide-loading
+{
+    BORDER-RIGHT: black 1px solid;
+    PADDING-RIGHT: 2px;
+    BACKGROUND-POSITION: 3px 1px;
+    BORDER-TOP: black 1px solid;
+    DISPLAY: block;
+    PADDING-LEFT: 22px;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 8pt;
+    BACKGROUND-IMAGE: url(highslidegraphics/loader.white.gif);
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: black 1px solid;
+    COLOR: black;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: black 1px solid;
+    BACKGROUND-REPEAT: no-repeat;
+    FONT-FAMILY: sans-serif;
+    BACKGROUND-COLOR: white;
+    TEXT-DECORATION: none
+}
+
+
+.highslide-html
+{
+    BORDER-RIGHT: white 1px solid;
+    BORDER-TOP: white 1px solid;
+    BORDER-LEFT: white 1px solid;
+    BORDER-BOTTOM: white 1px solid;
+    BACKGROUND-COLOR: white
+}
+
+.highslide-wrapper .highslide-header UL
+{
+    PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; TEXT-ALIGN: right
+}
+
+.highslide-wrapper .highslide-header UL LI {DISPLAY: inline; PADDING-LEFT: 1em}
+.highslide-wrapper .highslide-header UL LI.highslide-previous {DISPLAY: none}
+.highslide-wrapper .highslide-header UL LI.highslide-next {DISPLAY: none}
+
+.highslide-wrapper .highslide-header A
+{
+    FONT-WEIGHT: bold;
+    TEXT-TRANSFORM: uppercase;
+    COLOR: gray;
+    TEXT-DECORATION: none
+}
+.highslide-wrapper .highslide-header .highslide-move A {CURSOR: move}
+
+</style>
+
+	<script src="jswrapper.asp?file=enterdetailsval&screen=Image Library" id="clientEventHandlersJS" language="javascript"></script>
+	<h1>{Name}</h1>
+	<!--SavedTemplateData-->
+	<form name="frmPrevSaved" method="post">
+		<table class="table savedtemplate">
+			<tbody>
+				<tr>
+					<td>
+						<input type=hidden name="oid" id="oid" value="{order}">
+						<b>{PreviouslySavedCaption}</b> 
+						<select onchange="if (this.value != '')submit()" name="cboSavedData" id="cboSavedData">
+							<option value="">{OptionPleaseSelectCaption}</option>
+							{PreviousSavedOptions}
+						</select>
+					</td>
+				</tr>
+			</tbody>
+		</table> 
+	</form>
+	<!--/SavedTemplateData-->
+
+	<form  class="templatedetails" name="Form1" id="Form1" action="Step3New.asp{params}" method="post" onSubmit="return validateForm()">
+	<input type=hidden name="hidreturnto" id="hidreturnto" value="{returnto}">
+	<input type=hidden name="webportalid" id="webportalid" value="{webportalid}">
+	<!--TabTableStart-->
+	<input type=hidden class=textboxtext Name=pid size="5" value="{pid}">
+
+	<div class="container-fluid" id="alertYN">
+    	<div class="row">
+        	<div class="alert-container" role="alert">
+            	<p>Please enter your phone number as a 10-digit number. Example: 5555555555</p>
+                <div class="clearfix" id="alert-btn-container">
+                	<div class="col-lg-12">
+                    	<div class="row">
+                            <button type="button" class="alert-btn-confirm">OK</button>
+                        </div>
+                    </div>
+                </div>
+                <a class="alert-close"></a>
+            </div>
+        </div>
+    </div>
+	<table class="table details">
+		<!--Details-->
+		<tr>
+			<td colspan="2">
+				<!--ProofTop-->
+				<table class="table">
+					<!--LiveProof-->
+					<tr>
+						<td>
+							<span id="spnLiveProof"></span>
+							<input class="btn btn-primary" type="button" value="{ButtonRefreshCaption}" name="btnPreview" id="btnPreview" onClick="return RefreshProof();">
+						</td>
+					</tr>
+					<!--/LiveProof-->
+					<!--LiveProof-->
+					<tr>
+						<td><span id="spnPDFProof"></span></td>
+					</tr>
+					<!--/LiveProof-->
+					<tr>
+						<td>
+							<span id="spnFrontProof">
+								<!--FrontThumb-->{FrontThumb}<br>{FrontTemplateName}<!--/FrontThumb-->
+							</span>
+						</td>
+						<td>
+							<span id="spnBackProof">
+								<!--BackThumb-->{BackThumb}<br>{BackTemplateName}<!--/BackThumb-->
+							</span>
+						</td>
+					</tr>
+				</table>
+				<!--/ProofTop-->
+			</td>
+		</tr>
+		<!--HelpText-->
+		<tr>
+			<td colspan="2"><blockquote>{HelpText}</blockquote></td>
+		</tr> 
+		<!--/HelpText-->
+	</table>
+
+	<table class="table details">
+        <!--ProfileCaptionHeader-->
+		<tr>
+			<td class=labeltext></td>
+			<td>
+				<table border="0" class=wrapper>
+					<tr>
+						<td></td>
+						<td>
+							<a style="cursor:hand" onClick="OpenLocator('EmployeeLocator.asp?Template_Id={Template_Id}&WebPortalId={WebPortal_Id}&ProfileCaption={ProfileCaption}')" nowrap>&nbsp;&nbsp;<u>{ProfileCaption}</u></a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<!--/ProfileCaptionHeader-->
+
+		<div class="product-options">
+			<div class="front-back-details">
+				<div class="product-description">
+					<div class="descriptions">
+						<div class="description">
+							<h4><b>Product Description</b></h4>
+							<h5><b><span id="SelectOneOption{frontback}" class="front-back-title">{Name}</span></b></h5>
+							<div class="product-color-about LST850 hide">
+								<div class="colors">
+									<h5><b>Available Colors:</b></h5>
+									<div class="product-colors">
+										<span class="color trueroyal" title="True Royal" color="TrueRoyal" onclick="colorSelect(this);">&nbsp;</span>
+										<span class="color white" title="White" color="White" onclick="colorSelect(this);">&nbsp;</span>
+									</div>
+								</div>
+								<h5><b>Product Details:</b></h5>
+								<ul>
+									<li>An extremely flexible layer with a soft-brushed backing and moisture control for year-round comfort.</li>
+									<li>90/10 poly/spandex.</li>
+									<li>Tag-free label.</li>
+									<li>Gently contoured silhouette.</li>
+									<li>Smooth-faced.</li>
+									<li>Chin guard for additional comfort.</li>
+									<li>Cadet collar.</li>
+									<li>Taped neck.</li>
+									<li>Raglan sleeves.</li>
+									<li>Thumbholes to keep hands warm.</li>
+									<li>Hidden front pouch pocket.</li>
+									<li>Open cuffs and hem.</li>
+								</ul>
+								<div class="product-specsheet">
+									<h5><b><a target="_blank" href="Files/BrokerBranding/AzentaLifeSciences/Include/LST850specsheet.pdf">View Product Specsheet</a></b></h5>
+								</div>
+							</div>
+
+							<div class="product-color-about ST850 hide">
+								<div class="colors">
+									<h5><b>Available Colors:</b></h5>
+									<div class="product-colors">
+										<span class="color trueroyal" title="True Royal" color="TrueRoyal" onclick="colorSelect(this);">&nbsp;</span>
+										<span class="color white" title="White" color="White" onclick="colorSelect(this);">&nbsp;</span>
+									</div>
+								</div>
+								<h5><b>Product Details:</b></h5>
+								<ul>
+									<li>An extremely flexible layer with a soft-brushed backing and moisture control for year-round comfort.</li>
+									<li>90/10 poly/spandex jersey.</li>
+									<li>Tag-free label.</li>
+									<li>Smooth-faced.</li>
+									<li>Chin guard for additional comfort.</li>
+									<li>Cadet collar.</li>
+									<li>Taped neck.</li>
+									<li>Raglan sleeves.</li>
+									<li>Open cuffs and hem.</li>
+								</ul>
+								<div class="product-specsheet">
+									<h5><b><a target="_blank" href="Files/BrokerBranding/AzentaLifeSciences/Include/ST850specsheet.pdf">View Product Specsheet</a></b></h5>
+								</div>
+							</div>
+
+							<div class="product-color-about LST650 hide">
+								<div class="colors">
+									<h5><b>Available Colors:</b></h5>
+									<div class="product-colors">
+										<span class="color trueroyal" title="True Royal" color="TrueRoyal" onclick="colorSelect(this);">&nbsp;</span>
+										<span class="color white" title="White" color="White" onclick="colorSelect(this);">&nbsp;</span>
+									</div>
+								</div>
+								<h5><b>Product Details:</b></h5>
+								<ul>
+									<li>Smooth micropique polos that wick moisture and resist snags.</li>
+									<li>3.8-ounce, 100% polyester tricot.</li>
+									<li>Snag resistant.</li>
+									<li>Moisture-wicking.</li>
+									<li>Double-needle stitching throughout.</li>
+									<li>Tag-free label.</li>
+									<li>Taped neck.</li>
+									<li>Self-fabric collar.</li>
+									<li>Open placket.</li>
+									<li>Armhole accent.</li>
+									<li>Curved back waist seam for flattering fit.</li>
+									<li>Side vents.</li>
+								</ul>
+								<div class="product-specsheet">
+									<h5><b><a target="_blank" href="Files/BrokerBranding/AzentaLifeSciences/Include/LST650specsheet.pdf">View Product Specsheet</a></b></h5>
+								</div>
+							</div>
+
+							<div class="product-color-about ST650 hide">
+								<div class="colors">
+									<h5><b>Available Colors:</b></h5>
+									<div class="product-colors">
+										<span class="color trueroyal" title="True Royal" color="TrueRoyal" onclick="colorSelect(this);">&nbsp;</span>
+										<span class="color white" title="White" color="White" onclick="colorSelect(this);">&nbsp;</span>
+									</div>
+								</div>
+								<h5><b>Product Details:</b></h5>
+								<ul>
+									<li>Smooth micropique polos that wick moisture and resist snags.</li>
+									<li>3.8-ounce, 100% polyester tricot.</li>
+									<li>Snag resistant.</li>
+									<li>Moisture-wicking.</li>
+									<li>Double-needle stitching throughout.</li>
+									<li>Tag-free label.</li>
+									<li>Taped neck.</li>
+									<li>Flat knit collar.</li>
+									<li>3-button placket with dyed-to-match rubber buttons.</li>
+									<li>Set-in, open hem sleeves.</li>
+									<li>Armhole accent.</li>
+									<li>Side vents.</li>
+								</ul>
+								<div class="product-specsheet">
+									<h5><b><a target="_blank" href="Files/BrokerBranding/AzentaLifeSciences/Include/ST650specsheet.pdf">View Product Specsheet</a></b></h5>
+								</div>
+							</div>
+
+							<div class="product-color-about T473LS hide">
+								<div class="colors">
+									<h5><b>Available Colors:</b></h5>
+									<div class="product-colors">
+										<span class="color trueroyal" title="True Royal" color="TrueRoyal" onclick="colorSelect(this);">&nbsp;</span>
+										<span class="color white" title="White" color="White" onclick="colorSelect(this);">&nbsp;</span>
+									</div>
+								</div>
+								<h5><b>Product Details:</b></h5>
+								<ul>
+									<li>Dry Zone fabric's superior breathability wicks away moisture, fights odor and keeps you cooler.</li>
+									<li>4-ounce, 100% polyester.</li>
+									<li>Tag-free label.</li>
+									<li>Double-needle sleeves and hem.</li>
+								</ul>
+								<div class="product-specsheet">
+									<h5><b><a target="_blank" href="Files/BrokerBranding/AzentaLifeSciences/Include/T473LSspecsheet.pdf">View Product Specsheet</a></b></h5>
+								</div>
+							</div>
+
+							<div class="product-color-about 267020 hide">
+								<div class="colors">
+									<h5><b>Available Colors:</b></h5>
+									<div class="product-colors">
+										<span class="color navy" title="Midnight Navy" color="MidnightNavy" onclick="colorSelect(this);">&nbsp;</span>
+										<span class="color white" title="White" color="White" onclick="colorSelect(this);">&nbsp;</span>
+									</div>
+								</div>
+								<h5><b>Product Details:</b></h5>
+								<ul>
+									<li>Nike is known for classic polos engineered to take comfort to the next level.</li>
+									<li>The Dri-FIT fabric technology delivers superior moisture management, while the stitch-trimmed shoulder panels and gussets make a distinctive difference.</li>
+									<li>Flat knit collar.</li>
+									<li>Three-button placket.</li>
+									<li>Open hem sleeves.</li>
+									<li>The contrast Swoosh design trademark is embroidered on the left sleeve.</li>
+									<li>Made of 4.7-ounce, 100% polyester Dri-FIT fabric.</li>
+								</ul>
+								<div class="product-specsheet">
+									<h5><b><a target="_blank" href="Files/BrokerBranding/AzentaLifeSciences/Include/267020specsheet.pdf">View Product Specsheet</a></b></h5>
+								</div>
+							</div>
+
+							<div class="product-color-about 5180 hide">
+								<div class="colors">
+									<h5><b>Available Colors:</b></h5>
+									<div class="product-colors">
+										<span class="color navy" title="Navy" color="Navy" onclick="colorSelect(this);">&nbsp;</span>
+										<span class="color white" title="White" color="White" onclick="colorSelect(this);">&nbsp;</span>
+									</div>
+								</div>
+								<h5><b>Product Details:</b></h5>
+								<ul>
+									<li>6.1-ounce, 100% ring spun cotton.</li>
+									<li>Tag-free label.</li>
+									<li>Double-needle coverseamed crewneck.</li>
+									<li>Lay-flat collar.</li>
+									<li>Double-needle sleeves and hem.</li>
+								</ul>
+								<div class="product-specsheet">
+									<h5><b><a target="_blank" href="Files/BrokerBranding/AzentaLifeSciences/Include/5180specsheet.pdf">View Product Specsheet</a></b></h5>
+								</div>
+							</div>
+
+							<div class="product-color-about 5186 hide">
+								<div class="colors">
+									<h5><b>Available Colors:</b></h5>
+									<div class="product-colors">
+										<span class="color navy" title="Navy" color="Navy" onclick="colorSelect(this);">&nbsp;</span>
+										<span class="color white" title="White" color="White" onclick="colorSelect(this);">&nbsp;</span>
+									</div>
+								</div>
+								<h5><b>Product Details:</b></h5>
+								<ul>
+									<li>6.1-ounce, 100% ring spun cotton.</li>
+									<li>Tagless label.</li>
+									<li>Lay-flat collar.</li>
+									<li>Tag-free label.</li>
+									<li>Coverseamed neck.</li>
+									<li>Double-needle neck and hem.</li>
+									<li>Shoulder-to-shoulder taping.</li>
+									<li>Rib knit cuffs.</li>
+								</ul>
+								<div class="product-specsheet">
+									<h5><b><a target="_blank" href="Files/BrokerBranding/AzentaLifeSciences/Include/5186specsheet.pdf">View Product Specsheet</a></b></h5>
+								</div>
+							</div>
+
+							<div class="product-color-about 7123 hide">
+								<div class="colors">
+									<h5><b>Available Colors:</b></h5>
+									<div class="product-colors">
+										<span class="color trueroyal" title="True Royal" color="TrueRoyal" onclick="colorSelect(this);">&nbsp;</span>
+									</div>
+								</div>
+								<h5><b>Product Details:</b></h5>
+								<ul>
+									<li>14 oz. Bistro Mug (Ceramic).</li>
+									<li>measures approximately 4 1/4" H and meets FDA requirements.</li>
+								</ul>
+								<div class="product-specsheet">
+									
+								</div>
+							</div>
+
+							<div class="product-color-about EPIC17 hide">
+								<div class="colors">
+									<h5><b>Available Colors:</b></h5>
+									<div class="product-colors">
+										<span class="color trueroyal" title="True Royal" color="TrueRoyal" onclick="colorSelect(this);">&nbsp;</span>
+									</div>
+								</div>
+								<h5><b>Product Details:</b></h5>
+								<ul>
+									<li>17 oz. double wall stainless steel, vacuum insulated travel mug/tumbler with a velvet touch finish.</li>
+									<li>Transparent clear, sip through, push on, slide locking lid. 7.75" tall.</li>
+									<li>Fabulous looking and awesome feeling mug with all the insulation properties to keep your coffee hot for hours.</li>
+								</ul>
+								<div class="product-specsheet">
+									
+								</div>
+							</div>
+
+							<div class="product-color-about NE200 hide">
+								<div class="colors">
+									<h5><b>Available Colors:</b></h5>
+									<div class="product-colors">
+										<span class="color navy" title="Navy" color="Navy" onclick="colorSelect(this);">&nbsp;</span>
+										<span class="color white" title="White" color="White" onclick="colorSelect(this);">&nbsp;</span>
+									</div>
+								</div>
+								<h5><b>Product Details:</b></h5>
+								<ul>
+									<li>A hook and loop adjustable strap means this cap offers a comfortably snug fit.</li>
+									<li>Fabric: 100% cotton.</li>
+									<li>Structure: Structured.</li>
+									<li>Profile: Mid.</li>
+									<li>Closure: Hook and loop.</li>
+								</ul>
+								<div class="product-specsheet">
+									<h5><b><a target="_blank" href="Files/BrokerBranding/AzentaLifeSciences/Include/NE200specsheet.pdf">View Product Specsheet</a></b></h5>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<!--FieldLayout-->
+		<tr>
+			<td align="right" class=labeltext valign=top><b>{FieldCaption}</b>&nbsp;&nbsp;</td>
+			<td class=maintext nowrap>
+				<table class="table">
+					<tr>
+						<td nowrap>{FieldCaptionOptions}{Field}</td>
+						<td>{FieldScreenTip}</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+        <!--/FieldLayout-->
+	<!--/Details-->
+	</table>
+
+	<table class="table saveddata">
+		<!--SaveTemplateData-->
+		<tr>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td class=labeltext valign=top colspan="2">
+				<b><input type="checkbox" name="chkSave" id="chkSave" onclick="showSave(true)"> {SaveTemplateDataCaption}</b>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				<table style="display:none" id="spnSave">
+					<tr>
+						<td>
+							<!--SavedTemplateData--><input type="radio" name="rdoSave"  id="rdoSaveAs" value="SaveAs" checked> <!--/SavedTemplateData-->Save As: </td><td><input type="text" name="txtSaveAs" id="txtSaveAs">
+						</td>
+					</tr>
+					<!--SavedTemplateData-->
+					<tr>
+						<td>
+							<input type="radio" name="rdoSave" id="rdoSaveOver" value="Overwrite"> Overwrite: 
+						</td>
+						<td>
+							<select name="cboSaveOver" id="cboSaveOver">
+								<option value="">{OptionPleaseSelectCaption}</option>
+								{PreviousSavedOptions}
+							</select>
+						</td>
+					</tr>
+					<!--/SavedTemplateData-->
+					<tr>
+						<td colspan="2">
+							<input type="checkbox" name="chkThis" id="chkThis"> {OptionThisTemplateCaption}
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<!--/SaveTemplateData-->
+
+		<tr>
+			<td valign="top">
+				<table cellPadding=0 cellSpacing=0 width="100%" border=0>
+					<!--BUTTONS-->
+					<tr>
+						<td></td>
+						<td>
+							<br>
+							<input class="btn btn-primary" type="button" name="btnBack" id="btnBack" value="{BackButtonCaption}" onClick="window.history.back()">&nbsp;<input class="btn btn-primary" type=submit name="btnSubmit" value ="{NextButtonCaption}">
+							<br>
+						</td>
+					</tr>
+					<!--/BUTTONS-->
+				</table>
+			</td>
+		</tr>
+	</table>
+</form>
+
+<table class="table proof">
+	<tr>
+		<td>
+			<!--ProofRight-->
+			<table class=wrapper>
+				<tr>
+					<td>
+						<!--LiveProof-->
+						<span id="spnLiveProof"></span>
+						<input class="btn btn-primary" type="button" value="{ButtonRefreshCaption}" name="btnPreview" id="btnPreview" onClick="return RefreshProof();">
+						<!--/LiveProof-->
+
+						<!--LiveProof-->
+						<span id="spnPDFProof"></span>
+						<br>
+						<!--/LiveProof-->
+
+						<span id="spnFrontProof">
+							<!--FrontThumb-->{FrontThumb}<br>{FrontTemplateName}<br><!--/FrontThumb-->
+						</span>
+						<br>
+						<span id="spnBackProof">
+							<!--BackThumb-->{BackThumb}<br>{BackTemplateName}<br><!--/BackThumb-->
+						</span>
+						<br>
+					</td>
+				</tr>
+			</table>
+			<!--/ProofRight-->
+
+			<div class="product-pricing">
+				<div class="LST850 hide">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Size</th>
+								<th>Price</th>
+								<th class="col-xs-2">Quantity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Extra Small</td>
+								<td class="item-price">$44.99</td>
+								<td><input type="text" class="quantity spinner extrasmall" id="ExtraSmall" value="0"></td>
+							</tr>
+							<tr>
+								<td>Small</td>
+								<td class="item-price">$44.99</td>
+								<td><input type="text" class="quantity spinner small" id="Small" value="0"></td>
+							</tr>
+							<tr>
+								<td>Medium</td>
+								<td class="item-price">$44.99</td>
+								<td><input type="text" class="quantity spinner medium" id="Medium" value="0"></td>
+							</tr>
+							<tr>
+								<td>Large</td>
+								<td class="item-price">$44.99</td>
+								<td><input type="text" class="quantity spinner large" id="Large" value="0"></td>
+							</tr>
+							<tr>
+								<td>Extra Large</td>
+								<td class="item-price">$44.99</td>
+								<td><input type="text" class="quantity spinner extralarge" id="ExtraLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>2X Large</td>
+								<td class="item-price">$44.99</td>
+								<td><input type="text" class="quantity spinner 2xlarge" id="2XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>3X Large</td>
+								<td class="item-price">$44.99</td>
+								<td><input type="text" class="quantity spinner 3xlarge" id="3XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>4X Large</td>
+								<td class="item-price">$44.99</td>
+								<td><input type="text" class="quantity spinner 4xlarge" id="4XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Estimated Cost:</b></td>
+								<td class="text-center"><b class="total-cost">$0.00</b></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Total Pieces:</b></td>
+								<td class="text-center"><b class="total-pieces">0</b></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="disclaimer">
+						<p class="small">* No additional charges for shipping.</p>
+						<p class="small">* Total Quantity Limit: 95 pieces. If you require more than 95 pieces of this style, please call us at: +855.955.PROMO</p>
+					</div>
+					<div class="comments">
+						<label for="comment">Comments</label>
+						<textarea id="comment" class="comment" rows="5" placeholder="Write comments here..."></textarea>
+					</div>
+				</div>
+
+				<div class="ST850 hide">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Size</th>
+								<th>Price</th>
+								<th class="col-xs-2">Quantity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Extra Small</td>
+								<td class="item-price">$44.99</td>
+								<td><input type="text" class="quantity spinner extrasmall" id="ExtraSmall" value="0"></td>
+							</tr>
+							<tr>
+								<td>Small</td>
+								<td class="item-price">$44.99</td>
+								<td><input type="text" class="quantity spinner small" id="Small" value="0"></td>
+							</tr>
+							<tr>
+								<td>Medium</td>
+								<td class="item-price">$44.99</td>
+								<td><input type="text" class="quantity spinner medium" id="Medium" value="0"></td>
+							</tr>
+							<tr>
+								<td>Large</td>
+								<td class="item-price">$44.99</td>
+								<td><input type="text" class="quantity spinner large" id="Large" value="0"></td>
+							</tr>
+							<tr>
+								<td>Extra Large</td>
+								<td class="item-price">$44.99</td>
+								<td><input type="text" class="quantity spinner extralarge" id="ExtraLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>2X Large</td>
+								<td class="item-price">$44.99</td>
+								<td><input type="text" class="quantity spinner 2xlarge" id="2XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>3X Large</td>
+								<td class="item-price">$44.99</td>
+								<td><input type="text" class="quantity spinner 3xlarge" id="3XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>4X Large</td>
+								<td class="item-price">$44.99</td>
+								<td><input type="text" class="quantity spinner 4xlarge" id="4XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Estimated Cost:</b></td>
+								<td class="text-center"><b class="total-cost">$0.00</b></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Total Pieces:</b></td>
+								<td class="text-center"><b class="total-pieces">0</b></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="disclaimer">
+						<p class="small">* No additional charges for shipping.</p>
+						<p class="small">* Total Quantity Limit: 95 pieces. If you require more than 95 pieces of this style, please call us at: +855.955.PROMO</p>
+					</div>
+					<div class="comments">
+						<label for="comment">Comments</label>
+						<textarea id="comment" class="comment" rows="5" placeholder="Write comments here..."></textarea>
+					</div>
+				</div>
+
+				<div class="LST650 hide">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Size</th>
+								<th>Price</th>
+								<th class="col-xs-2">Quantity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Extra Small</td>
+								<td class="item-price">$39.99</td>
+								<td><input type="text" class="quantity spinner extrasmall" id="ExtraSmall" value="0"></td>
+							</tr>
+							<tr>
+								<td>Small</td>
+								<td class="item-price">$39.99</td>
+								<td><input type="text" class="quantity spinner small" id="Small" value="0"></td>
+							</tr>
+							<tr>
+								<td>Medium</td>
+								<td class="item-price">$39.99</td>
+								<td><input type="text" class="quantity spinner medium" id="Medium" value="0"></td>
+							</tr>
+							<tr>
+								<td>Large</td>
+								<td class="item-price">$39.99</td>
+								<td><input type="text" class="quantity spinner large" id="Large" value="0"></td>
+							</tr>
+							<tr>
+								<td>Extra Large</td>
+								<td class="item-price">$39.99</td>
+								<td><input type="text" class="quantity spinner extralarge" id="ExtraLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>2X Large</td>
+								<td class="item-price">$39.99</td>
+								<td><input type="text" class="quantity spinner 2xlarge" id="2XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>3X Large</td>
+								<td class="item-price">$39.99</td>
+								<td><input type="text" class="quantity spinner 3xlarge" id="3XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>4X Large</td>
+								<td class="item-price">$39.99</td>
+								<td><input type="text" class="quantity spinner 4xlarge" id="4XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Estimated Cost:</b></td>
+								<td class="text-center"><b class="total-cost">$0.00</b></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Total Pieces:</b></td>
+								<td class="text-center"><b class="total-pieces">0</b></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="disclaimer">
+						<p class="small">* No additional charges for shipping.</p>
+						<p class="small">* Total Quantity Limit: 95 pieces. If you require more than 95 pieces of this style, please call us at: +855.955.PROMO</p>
+					</div>
+					<div class="comments">
+						<label for="comment">Comments</label>
+						<textarea id="comment" class="comment" rows="5" placeholder="Write comments here..."></textarea>
+					</div>
+				</div>
+
+				<div class="ST650 hide">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Size</th>
+								<th>Price</th>
+								<th class="col-xs-2">Quantity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Extra Small</td>
+								<td class="item-price">$39.99</td>
+								<td><input type="text" class="quantity spinner extrasmall" id="ExtraSmall" value="0"></td>
+							</tr>
+							<tr>
+								<td>Small</td>
+								<td class="item-price">$39.99</td>
+								<td><input type="text" class="quantity spinner small" id="Small" value="0"></td>
+							</tr>
+							<tr>
+								<td>Medium</td>
+								<td class="item-price">$39.99</td>
+								<td><input type="text" class="quantity spinner medium" id="Medium" value="0"></td>
+							</tr>
+							<tr>
+								<td>Large</td>
+								<td class="item-price">$39.99</td>
+								<td><input type="text" class="quantity spinner large" id="Large" value="0"></td>
+							</tr>
+							<tr>
+								<td>Extra Large</td>
+								<td class="item-price">$39.99</td>
+								<td><input type="text" class="quantity spinner extralarge" id="ExtraLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>2X Large</td>
+								<td class="item-price">$39.99</td>
+								<td><input type="text" class="quantity spinner 2xlarge" id="2XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>3X Large</td>
+								<td class="item-price">$39.99</td>
+								<td><input type="text" class="quantity spinner 3xlarge" id="3XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>4X Large</td>
+								<td class="item-price">$39.99</td>
+								<td><input type="text" class="quantity spinner 4xlarge" id="4XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Estimated Cost:</b></td>
+								<td class="text-center"><b class="total-cost">$0.00</b></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Total Pieces:</b></td>
+								<td class="text-center"><b class="total-pieces">0</b></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="disclaimer">
+						<p class="small">* No additional charges for shipping.</p>
+						<p class="small">* Total Quantity Limit: 95 pieces. If you require more than 95 pieces of this style, please call us at: +855.955.PROMO</p>
+					</div>
+					<div class="comments">
+						<label for="comment">Comments</label>
+						<textarea id="comment" class="comment" rows="5" placeholder="Write comments here..."></textarea>
+					</div>
+				</div>
+
+				<div class="T473LS hide">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Size</th>
+								<th>Price</th>
+								<th class="col-xs-2">Quantity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Extra Small</td>
+								<td class="item-price">$34.99</td>
+								<td><input type="text" class="quantity spinner extrasmall" id="ExtraSmall" value="0"></td>
+							</tr>
+							<tr>
+								<td>Small</td>
+								<td class="item-price">$34.99</td>
+								<td><input type="text" class="quantity spinner small" id="Small" value="0"></td>
+							</tr>
+							<tr>
+								<td>Medium</td>
+								<td class="item-price">$34.99</td>
+								<td><input type="text" class="quantity spinner medium" id="Medium" value="0"></td>
+							</tr>
+							<tr>
+								<td>Large</td>
+								<td class="item-price">$34.99</td>
+								<td><input type="text" class="quantity spinner large" id="Large" value="0"></td>
+							</tr>
+							<tr>
+								<td>Extra Large</td>
+								<td class="item-price">$34.99</td>
+								<td><input type="text" class="quantity spinner extralarge" id="ExtraLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>2X Large</td>
+								<td class="item-price">$34.99</td>
+								<td><input type="text" class="quantity spinner 2xlarge" id="2XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>3X Large</td>
+								<td class="item-price">$34.99</td>
+								<td><input type="text" class="quantity spinner 3xlarge" id="3XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>4X Large</td>
+								<td class="item-price">$34.99</td>
+								<td><input type="text" class="quantity spinner 4xlarge" id="4XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Estimated Cost:</b></td>
+								<td class="text-center"><b class="total-cost">$0.00</b></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Total Pieces:</b></td>
+								<td class="text-center"><b class="total-pieces">0</b></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="disclaimer">
+						<p class="small">* No additional charges for shipping.</p>
+						<p class="small">* Total Quantity Limit: 95 pieces. If you require more than 95 pieces of this style, please call us at: +855.955.PROMO</p>
+					</div>
+					<div class="comments">
+						<label for="comment">Comments</label>
+						<textarea id="comment" class="comment" rows="5" placeholder="Write comments here..."></textarea>
+					</div>
+				</div>
+
+				<div class="267020 hide">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Size</th>
+								<th>Price</th>
+								<th class="col-xs-2">Quantity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Extra Small</td>
+								<td class="item-price">$54.75</td>
+								<td><input type="text" class="quantity spinner extrasmall" id="ExtraSmall" value="0"></td>
+							</tr>
+							<tr>
+								<td>Small</td>
+								<td class="item-price">$54.75</td>
+								<td><input type="text" class="quantity spinner small" id="Small" value="0"></td>
+							</tr>
+							<tr>
+								<td>Medium</td>
+								<td class="item-price">$54.75</td>
+								<td><input type="text" class="quantity spinner medium" id="Medium" value="0"></td>
+							</tr>
+							<tr>
+								<td>Large</td>
+								<td class="item-price">$54.75</td>
+								<td><input type="text" class="quantity spinner large" id="Large" value="0"></td>
+							</tr>
+							<tr>
+								<td>Extra Large</td>
+								<td class="item-price">$54.75</td>
+								<td><input type="text" class="quantity spinner extralarge" id="ExtraLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>2X Large</td>
+								<td class="item-price">$54.75</td>
+								<td><input type="text" class="quantity spinner 2xlarge" id="2XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>3X Large</td>
+								<td class="item-price">$54.75</td>
+								<td><input type="text" class="quantity spinner 3xlarge" id="3XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>4X Large</td>
+								<td class="item-price">$54.75</td>
+								<td><input type="text" class="quantity spinner 4xlarge" id="4XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Estimated Cost:</b></td>
+								<td class="text-center"><b class="total-cost">$0.00</b></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Total Pieces:</b></td>
+								<td class="text-center"><b class="total-pieces">0</b></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="disclaimer">
+						<p class="small">* No additional charges for shipping.</p>
+						<p class="small">* Total Quantity Limit: 95 pieces. If you require more than 95 pieces of this style, please call us at: +855.955.PROMO</p>
+					</div>
+					<div class="comments">
+						<label for="comment">Comments</label>
+						<textarea id="comment" class="comment" rows="5" placeholder="Write comments here..."></textarea>
+					</div>
+				</div>
+
+				<div class="5180 hide">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Size</th>
+								<th>Price</th>
+								<th class="col-xs-2">Quantity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Small</td>
+								<td class="item-price">$21.75</td>
+								<td><input type="text" class="quantity spinner small" id="Small" value="0"></td>
+							</tr>
+							<tr>
+								<td>Medium</td>
+								<td class="item-price">$21.75</td>
+								<td><input type="text" class="quantity spinner medium" id="Medium" value="0"></td>
+							</tr>
+							<tr>
+								<td>Large</td>
+								<td class="item-price">$21.75</td>
+								<td><input type="text" class="quantity spinner large" id="Large" value="0"></td>
+							</tr>
+							<tr>
+								<td>Extra Large</td>
+								<td class="item-price">$21.75</td>
+								<td><input type="text" class="quantity spinner extralarge" id="ExtraLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>2X Large</td>
+								<td class="item-price">$21.75</td>
+								<td><input type="text" class="quantity spinner 2xlarge" id="2XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>3X Large</td>
+								<td class="item-price">$21.75</td>
+								<td><input type="text" class="quantity spinner 3xlarge" id="3XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Estimated Cost:</b></td>
+								<td class="text-center"><b class="total-cost">$0.00</b></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Total Pieces:</b></td>
+								<td class="text-center"><b class="total-pieces">0</b></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="disclaimer">
+						<p class="small">* No additional charges for shipping.</p>
+						<p class="small">* Total Quantity Limit: 95 pieces. If you require more than 95 pieces of this style, please call us at: +855.955.PROMO</p>
+					</div>
+					<div class="comments">
+						<label for="comment">Comments</label>
+						<textarea id="comment" class="comment" rows="5" placeholder="Write comments here..."></textarea>
+					</div>
+				</div>
+
+				<div class="5186 hide">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Size</th>
+								<th>Price</th>
+								<th class="col-xs-2">Quantity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Small</td>
+								<td class="item-price">$25.35</td>
+								<td><input type="text" class="quantity spinner small" id="Small" value="0"></td>
+							</tr>
+							<tr>
+								<td>Medium</td>
+								<td class="item-price">$25.35</td>
+								<td><input type="text" class="quantity spinner medium" id="Medium" value="0"></td>
+							</tr>
+							<tr>
+								<td>Large</td>
+								<td class="item-price">$25.35</td>
+								<td><input type="text" class="quantity spinner large" id="Large" value="0"></td>
+							</tr>
+							<tr>
+								<td>Extra Large</td>
+								<td class="item-price">$25.35</td>
+								<td><input type="text" class="quantity spinner extralarge" id="ExtraLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>2X Large</td>
+								<td class="item-price">$25.35</td>
+								<td><input type="text" class="quantity spinner 2xlarge" id="2XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td>3X Large</td>
+								<td class="item-price">$25.35</td>
+								<td><input type="text" class="quantity spinner 3xlarge" id="3XLarge" value="0"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Estimated Cost:</b></td>
+								<td class="text-center"><b class="total-cost">$0.00</b></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Total Pieces:</b></td>
+								<td class="text-center"><b class="total-pieces">0</b></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="disclaimer">
+						<p class="small">* No additional charges for shipping.</p>
+						<p class="small">* Total Quantity Limit: 95 pieces. If you require more than 95 pieces of this style, please call us at: +855.955.PROMO</p>
+					</div>
+					<div class="comments">
+						<label for="comment">Comments</label>
+						<textarea id="comment" class="comment" rows="5" placeholder="Write comments here..."></textarea>
+					</div>
+				</div>
+
+				<div class="7123 hide">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Size</th>
+								<th>Price</th>
+								<th class="col-xs-2">Quantity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>14 oz.</td>
+								<td class="item-price">$12.99</td>
+								<td><input type="text" class="quantity spinner medium" id="Medium" value="0"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Estimated Cost:</b></td>
+								<td class="text-center"><b class="total-cost">$0.00</b></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Total Pieces:</b></td>
+								<td class="text-center"><b class="total-pieces">0</b></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="disclaimer">
+						<p class="small">* No additional charges for shipping.</p>
+						<p class="small">* Total Quantity Limit: 95 pieces. If you require more than 95 pieces of this style, please call us at: +855.955.PROMO</p>
+					</div>
+					<div class="comments">
+						<label for="comment">Comments</label>
+						<textarea id="comment" class="comment" rows="5" placeholder="Write comments here..."></textarea>
+					</div>
+				</div>
+
+				<div class="EPIC17 hide">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Size</th>
+								<th>Price</th>
+								<th class="col-xs-2">Quantity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>17 oz.</td>
+								<td class="item-price">$19.99</td>
+								<td><input type="text" class="quantity spinner medium" id="Medium" value="0"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Estimated Cost:</b></td>
+								<td class="text-center"><b class="total-cost">$0.00</b></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Total Pieces:</b></td>
+								<td class="text-center"><b class="total-pieces">0</b></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="disclaimer">
+						<p class="small">* No additional charges for shipping.</p>
+						<p class="small">* Total Quantity Limit: 95 pieces. If you require more than 95 pieces of this style, please call us at: +855.955.PROMO</p>
+					</div>
+					<div class="comments">
+						<label for="comment">Comments</label>
+						<textarea id="comment" class="comment" rows="5" placeholder="Write comments here..."></textarea>
+					</div>
+				</div>
+
+				<div class="NE200 hide">
+					<table class="table">
+						<thead>
+							<tr>
+								<th>Size</th>
+								<th>Price</th>
+								<th class="col-xs-2">Quantity</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>OSFA</td>
+								<td class="item-price">$27.65</td>
+								<td><input type="text" class="quantity spinner medium" id="Medium" value="0"></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Estimated Cost:</b></td>
+								<td class="text-center"><b class="total-cost">$0.00</b></td>
+							</tr>
+							<tr>
+								<td></td>
+								<td class="text-right"><b>Total Pieces:</b></td>
+								<td class="text-center"><b class="total-pieces">0</b></td>
+							</tr>
+						</tbody>
+					</table>
+					<div class="disclaimer">
+						<p class="small">* No additional charges for shipping.</p>
+						<p class="small">* Total Quantity Limit: 95 pieces. If you require more than 95 pieces of this style, please call us at: +855.955.PROMO</p>
+					</div>
+					<div class="comments">
+						<label for="comment">Comments</label>
+						<textarea id="comment" class="comment" rows="5" placeholder="Write comments here..."></textarea>
+					</div>
+				</div>
+			</div>
+		</td>
+	</tr>
+</table>
+<!--TabTableEnd-->

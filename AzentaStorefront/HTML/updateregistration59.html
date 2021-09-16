@@ -1,0 +1,642 @@
+
+
+<script type="text/javascript" src="Include/highslide.js"></script>
+<script type="text/javascript" src="Include/highslide.cfg.js"></script>	
+<script src="jswrapper.asp?file=enterdetailsval&screen=Image Library"></script>
+<div class="registration-container">
+	<form name="Form1" method="Post" onSubmit="return ValidData()">
+		<script language="JavaScript">
+			function hasValue(strName)
+			{
+				<!--hasvalue-->
+				return true;
+			}
+
+			function setImage(strField, strLibraryImageId, strFile)
+			{
+				document.Form1[strField].value = strLibraryImageId;
+				document.Form1["img" + strField].src=strFile;
+				document.Form1["delimg" + strField].style.display='';
+				document.Form1["img" + strField].border='1';
+			}
+			function deleteImage(remove)
+			{
+				document.getElementById(remove).value='';
+				document.getElementById('img' + remove).src = 'images/spacer.gif';
+				document.getElementById('img' + remove).border='0';
+				document.getElementById('delimg' + remove).style.display='none';
+			}
+			function popup(strUrl)
+			{
+				var winEd
+				winEd = window.open(strUrl,"","width=620,height=320,toolbar=0,status=0,location=0,menubar=0,scrollbars=1,resizable=1");
+				winEd.focus();
+			}
+			function functionOnLoad(){
+				setup();
+			}
+
+			function showPasswordReset()
+			{
+				if(document.getElementById('chkChangePassword').checked){document.getElementById('tabPasswordOps').style.display=''}else{document.getElementById('tabPasswordOps').style.display='none'}
+			}
+
+		function setup()
+		{
+			if(document.getElementById('EIFGroupNameList').value!='') EIFGroupClicked('');
+			showPasswordReset()
+
+		}
+
+		function isWhitespace(strCurrent)
+
+		{   var i;
+			var whitespace = " \t\n\r";
+
+			if (isEmpty(strCurrent)) return true;
+
+			for (i = 0; i < strCurrent.length; i++)
+			{   
+				var c = strCurrent.charAt(i);
+
+				if (whitespace.indexOf(c) == -1) return false;
+			}
+
+			return true;
+		}
+
+		function isEmpty(strCurrent)
+		{  
+			return ((strCurrent == null) || (strCurrent.length == 0))
+		}
+
+
+		function ValidData()
+		{
+
+			if (CheckEntry('CostCentre', '{CostCentreCaption}', true, 0, '', '') == false) return false;
+			if (CheckEntry('FName', '{NameFirstNameCaption}', true, 20, 'max', '') == false) return false;
+			if (CheckEntry('SName', '{NameSurnameCaption}', true, 20, 'max', '') == false) return false;
+			if (CheckEntry('Email', '{EmailCaption}', true, 100, 'max', '') == false) return false;
+			<!--ExtraInfoLogic-->
+			<!--AdditionalInfo-->
+			if (CheckEntry('AdditionalInfo', '{AdditionalInfoCaption}', true, 50, 'max', '') == false) return false;
+			<!--/AdditionalInfo-->
+
+			if (CheckEntry('UserName', '{UserNameCaption}', true, 50, 'max', '') == false) return false;
+			if(document.getElementById('chkChangePassword').checked)
+			{
+				if(document.getElementById('OldPassword')) if (CheckEntry('OldPassword', '{OldPasswordCaption}', true, 50, 'max', '') == false) return false;
+				if (CheckEntry('Password', '{ThePasswordCaption}', true, 50, 'max', '') == false) return false;
+
+
+				if ((document.Form1.Password.value) != (document.Form1.ConfirmPassword.value))
+				{
+					alert('{ConfirmPasswordDoNotMatchCaption}');
+					return false;
+				}
+			}
+
+			<!--SelfActivateJS-->
+			if ((document.Form1.Email.value) != (document.Form1.ConfirmEmail.value))
+			{
+				alert('{ConfirmEmailDoNotMatchCaption}');
+				return false;
+			}
+			<!--/SelfActivateJS-->
+
+			<!--AddressJS-->
+			<!--AddressCompanyJS-->
+			if (CheckEntry('AddressCompany', '{CompanyNameCaption}', true, 50, 'max', '') == false) return false;
+			<!--/AddressCompanyJS-->
+			if (CheckEntry('Address1', '{Address1Caption}', true, 50, 'max', '') == false) return false;
+			if (CheckEntry('Suburb', '{SuburbCaption}', true, 50, 'max', '') == false) return false;
+			if (CheckEntry('State', '{StateCaption}', true, 50, 'max', '') == false) return false;
+			if (CheckEntry('Postcode', '{PostcodeCaption}', true, 50, 'max', '') == false) return false;
+			<!--/AddressJS-->
+
+			EnableFields();
+
+			return true;
+		}
+
+		<!--ExtraInfoFunctions-->
+
+		function EnableFields()
+		{
+			var objElements;
+			var i;
+
+			objElements = document.getElementsByTagName("input");
+
+			for (i=0;i<objElements.length;i++)
+			{
+				if (objElements[i].disabled){objElements[i].value = "";}
+				objElements[i].disabled = false;
+			}
+
+			objElements = document.getElementsByTagName("select");
+			for (i=0;i<objElements.length;i++)
+			{
+				if (objElements[i].disabled){objElements[i].selectedIndex = "0";}
+				objElements[i].disabled = false;
+			}
+		}
+
+
+		function CheckEntry(ctrlCur, strCaption, blnRequired, strLength, strType, strErrorMessage)
+		{
+			var strTempMsg = strErrorMessage;
+
+			if ((isWhitespace(document.Form1.elements[ctrlCur].value)) && blnRequired)
+			{
+				if (strTempMsg != ''){
+					alert(strTempMsg);
+				}
+				else{
+					alert('{YouMustEnterAValueForCaption} ' + strCaption);
+				}
+
+				document.Form1.elements[ctrlCur].focus();
+				return false;
+			}
+
+
+
+			if (strLength != '')
+			{
+
+				var intLen = parseInt(strLength);
+
+				if (intLen != 0)
+				{
+					if ((document.Form1.elements[ctrlCur].value.length != intLen) && (strType == 'exactly'))
+					{
+						if ((blnRequired == false) && (document.Form1.elements[ctrlCur].value.length==0))return true;
+						if (strErrorMessage == ''){strTempMsg='{PleaseEnterCaption} ' + strLength + ' {CharactersForCaption} ' + strCaption}
+							alert(strTempMsg);
+						return false;
+					}
+
+					if ((document.Form1.elements[ctrlCur].value.length < intLen) && (strType == 'at least'))
+					{
+						if ((blnRequired == false) && (document.Form1.elements[ctrlCur].value.length==0))return true;
+						if (strErrorMessage == ''){strTempMsg='{PleaseEnterAtLeastCaption} ' + strLength + ' {CharactersForCaption} ' + strCaption}
+							alert(strTempMsg);
+						return false;
+					}
+
+					if ((document.Form1.elements[ctrlCur].value.length > intLen) && (strType == 'at most'))
+					{
+						if ((blnRequired == false) && (document.Form1.elements[ctrlCur].value.length==0))return true;
+						if (strErrorMessage == ''){strTempMsg='{PleaseEnterAtMostCaption} ' + strLength + ' {CharactersForCaption} ' + strCaption + '\n({YouHaveEnteredCaption} ' + document.Form1.elements[ctrlCur].value.length + ' {charactersCaption})'}
+							alert(strTempMsg);
+						return false;
+					}
+				}
+			}
+
+
+			return true;
+		}
+
+		function HasSelected(ctrlRadio, strCaption)
+		{
+			if (ctrlRadio.value==null)
+			{
+				for(var i=0; i < ctrlRadio.length; i++)
+				{
+					if (ctrlRadio(i).checked)
+					{
+						return true;
+						break;
+					}
+				}
+			}
+			else
+			{
+				return true;
+			}
+			alert('Please select a ' + strCaption);
+			return false;
+		}
+
+		function EIFGroupClicked(strVal)
+		{
+			var aryGroups;
+			var iCntr=0;
+			var children;
+			var i;
+			var strGNList=document.getElementById('EIFGroupNameList').value;
+
+			if(strVal == '')
+			{
+				for (i=0;i<document.Form1.eifgroup.length;i++) 
+				{
+					if (document.Form1.eifgroup[i].checked) 
+					{ 
+						strVal = document.Form1.eifgroup[i].value; 
+					} 
+				}
+				if (strVal == '')
+				{
+					document.Form1.eifgroup[0].checked = true;
+					strVal = document.Form1.eifgroup[0].value;
+				}
+			}
+
+			aryGroups = strGNList.split("|");
+			for (iCntr=0;iCntr<aryGroups.length;iCntr++)
+			{
+				children = document.getElementById('div' + aryGroups[iCntr]).getElementsByTagName('*');
+				for (i=0;i<children.length;i++)
+				{
+					if(children[i].type=="text" || children[i].type=="select-one")
+					{
+						children[i].disabled = true;
+					}
+				}
+
+				children = document.getElementsByName("GroupItem" + aryGroups[iCntr]);
+
+				for (i=0;i<children.length;i++)
+				{
+					setOpacity(50, children[i]);
+				}
+			}
+
+
+
+			children = document.getElementById('div' + strVal).getElementsByTagName('*');
+			for (i=0;i<children.length;i++)
+			{
+				children[i].disabled = false;
+				setOpacity(100, children[i]);
+			}
+		}
+
+		function setOpacity(opacity, objObject)
+		{
+			// IE/Win
+			objObject.style.filter = "alpha(opacity:"+opacity+")";
+			objObject.style.zoom = 1;
+			
+			// Safari<1.2, Konqueror
+			objObject.style.KHTMLOpacity = opacity/100;
+
+			// Older Mozilla and Firefox
+			objObject.style.MozOpacity = opacity/100;
+
+			// Safari 1.2, newer Firefox and Mozilla, CSS3
+			objObject.style.opacity = opacity/100;
+		}
+	</script>
+	<STYLE type="text/css">
+	.highslide-wrapper .highslide-header ul {
+		margin: 0;
+		padding: 0;
+		text-align: right;
+	}
+	.highslide-wrapper .highslide-header ul li {
+		display: inline;
+		padding-left: 1em;
+	}
+	.highslide-wrapper .highslide-header ul li.highslide-previous, .highslide-wrapper .highslide-header ul li.highslide-next {
+		display: none;
+	}
+	.highslide-wrapper .highslide-header a {
+		font-weight: bold;
+		color: gray;
+		text-transform: uppercase;
+		text-decoration: none;
+	}
+</STYLE>
+
+
+<!--TabTableStart-->
+<!--Style-->
+<table class="table update">
+	<thead>
+		<tr>
+			<th>{RegistrationDetailsHeading}</th>
+		</tr>
+	</thead>
+	<tbody>
+		<!--CostCentres-->
+		<tr class="hide">
+			<td>
+				<table class="table">
+					<thead>
+						<tr>
+							<td>{CostCentreCaption}</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>{CostCentres}</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		<!--/CostCentres-->
+
+		<tr>
+			<td>
+				<table class="table">
+					<thead>
+						<tr>
+							<td>{NameFirstNameCaption}</td>
+							<td>{NameSurnameCaption}</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type=text size="20" value="{FName}" Name="FName"></td>
+							<td><input type=text size="20" value="{SName}" Name="SName"></td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<table class="table">
+					<thead>
+						<tr>
+							<td>{EmailCaption}</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type=text size="44" value="{Email}" Name="Email"></td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+
+		<!--SelfActivate-->
+		<tr>
+			<td>
+				<table class="table">
+					<thead>
+						<tr>
+							<td>{ConfirmEmailCaption}</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type=text size="44" value="{Email}" Name="ConfirmEmail"></td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		<!--/SelfActivate-->
+
+		<tr class="hide">
+			<td>
+				<table class="table">
+					<thead>
+						<tr>
+							<td>{DefaultDetailsCaption}</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type=checkbox Name="DefaultDetails" {defaultdetailschecked}></td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+
+		<tr>
+			<td>
+				<table class="table">
+					<thead>
+						<tr>
+							<td>{PhoneCaption}</td>
+							<td>{MobileCaption}</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type=text size="20" value="{Phone}" Name="Phone"></td>
+							<td><input type=text size="20" value="{Mobile}" Name="Mobile"></td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+
+		<!--ExtraInfos-->
+		<tr>
+			<td>
+				<table class="table">
+					<thead>
+						<tr>
+							<td>{ExtraInfoCaption}</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>{ExtraInfoField}{cclink}</td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		<!--/ExtraInfos-->
+
+		<!--ScreenDefintion-->
+		<tr class="hide">
+			<td>
+				<table class="table">
+					<thead>
+						<tr>
+							<td>{ScreenDefinitionCaption}</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td>{ScreenDefintions} <input type="hidden" name="hidhaslan" value="1"></td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		<!--/ScreenDefintion-->
+
+		<tr style="{ShowUserPass}">
+			<td>
+				<table class="table">
+					<thead>
+						<tr>
+							<td>{UsernameCaption}</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type=Text size="30" Name="UserName" Value="{UserName}"></td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+
+		<tr class="hide">
+			<td>
+				<table class="table">
+					<thead>
+						<tr>
+							<td>{ChangePasswordCaption}</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type="checkbox" name="chkChangePassword" id="chkChangePassword" onclick="showPasswordReset()"></td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+
+		<!--trOldPassword-->
+		<tr>
+			<td>
+				<table class="table">
+					<thead>
+						<tr>
+							<td>{OldPasswordCaption}</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type=password size="20" name="OldPassword" id="OldPassword" autocomplete="off"></td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+		<!--/trOldPassword-->
+
+		<tr>
+			<td>
+				<table class="table">
+					<thead>
+						<tr>
+							<td>{PasswordCaption}</td>
+							<td>{ConfirmPasswordCaption}</td>
+						</tr>
+					</thead>
+					<tbody>
+						<tr>
+							<td><input type=password size="20" Name="Password" value="" autocomplete="off"></td>
+							<td><input type=password size="20" Name="ConfirmPassword" value="" autocomplete="off"></td>
+						</tr>
+					</tbody>
+				</table>
+			</td>
+		</tr>
+
+		<!--ExtraInfoGroup-->
+		<tr>
+			<td colspan=2>
+				<div id="div{GroupName}">
+					<table width="100%" cellspacing="0" cellpadding="0" border="0">
+						<tr>
+							<td colspan="2" class=bordertableheader>
+								<!--ExtraInfoGroupSelect-->
+								<input type="radio" name="eifgroup" value="{GroupName}" onClick="EIFGroupClicked(this.value)" {GroupSelected}>
+								<!--/ExtraInfoGroupSelect-->
+								&nbsp;{GroupName}
+							</td>
+						</tr>
+						<!--ExtraInfosGroup-->
+						<tr>
+							<td class="TextBoxTextGroup" width="120">
+								<div name="GroupItem{GroupName}" id="GroupItem{GroupName}" width=100%>{ExtraInfoCaption}</div>
+							</td>
+							<td class="TextBoxText">
+								<div name="GroupItem{GroupName}" id="GroupItem{GroupName}" width=100%>{ExtraInfoField}</div>
+							</td>
+						</tr>
+						<!--/ExtraInfosGroup-->
+					</table>
+				</div>
+			</td>
+		</tr>
+		<!--/ExtraInfoGroup-->
+
+		<!--AdditionalInfo-->
+		<tr>
+			<td width="120">{AdditionalInfoCaption}</td>
+			<td><input type=Text size="20" Name="AdditionalInfo" Value="{AdditionalInfoText}"></td>
+		</tr>
+		<!--/AdditionalInfo-->
+
+		<!--Address-->
+		<tr>
+			<td colspan=2 class=bordertableheader>{AddressDetailsHeading}<input type=hidden Name="ShowAddress" value="1"></td>
+		</tr>
+
+		<!--AddressCompany-->
+		<tr>
+			<td width="120">{CompanyNameCaption}</td>
+			<td><input type=Text size="40" Name="AddressCompany" Value="{AddressCompany}"></td>
+		</tr>
+		<!--/AddressCompany-->
+
+		<tr>
+			<td width="120">{Address1Caption}</td>
+			<td><input type=Text size="40" Name="Address1" Value="{Address1}"></td>
+		</tr>
+		<tr>
+			<td width="120">{Address2Caption}</td>
+			<td><input type=Text size="40" Name="Address2" Value="{Address2}"></td>
+		</tr>
+		<tr>
+			<td width="120">{Address3Caption}</td>
+			<td><input type=Text size="40" Name="Address3" Value="{Address3}"></td>
+		</tr>
+		<tr>
+			<td width="120">{SuburbCaption}</td>
+			<td><input type=Text size="40" Name="Suburb" Value="{Suburb}"></td>
+		</tr>
+		<tr>
+			<td width="120">{StateCaption}</td>
+			<td><input type=Text size="40" Name="State" Value="{State}"></td>
+		</tr>
+		<tr>
+			<td width="120">{PostcodeCaption}</td>
+			<td><input type=Text size="12" Name="Postcode" Value="{Postcode}"></td>
+		</tr>
+		<tr>
+			<td width="120">{CountryCaption}</td>
+			<td><input type=Text size="40" Name="Country" Value="{Country}"></td>
+		</tr>
+		<!--/Address-->
+
+		<!--RegistrationImage-->
+		<tr>
+			<td colspan=2 class=bordertableheader>{ImageHeading}</td>
+		</tr>
+		<tr>
+			<td colspan="2" align="center">{ImageSource}</td>
+		</tr>
+		<!--/RegistrationImage-->
+		<tr>
+			<td colspan=2 align="right">
+				<input type=hidden id="EIFGroupNameList" value="{EIFGroupNameList}">
+				<input type="button" class="btn btn-primary" value="{BackButtonCaption}" onClick="window.history.back()">&nbsp;
+				<input type="submit" class="btn btn-primary" value="{SaveButtonCaption}" id=btnSubmit name=btnSubmit>
+			</td>
+		</tr>                                                 	              
+	</tbody>
+</table>
+<!--TabTableEnd-->
+</form>
+</div>

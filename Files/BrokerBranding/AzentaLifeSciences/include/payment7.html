@@ -1,0 +1,365 @@
+
+<script src="include/ajax.js"></script>
+<script type="text/JavaScript">
+<!--
+function stopRKey(evt) {
+  var evt = (evt) ? evt : ((event) ? event : null);
+  var node = (evt.target) ? evt.target : ((evt.srcElement) ? evt.srcElement : null);
+  if ((evt.keyCode == 13) && (node.type!="textarea"))  {return false;}
+}
+document.onkeypress = stopRKey;
+
+function MM_openBrWindow(theURL,winName,features) { //v2.0
+  window.open(theURL,winName,features);
+}
+//-->
+</script>
+<STYLE type=text/css>
+.totalrow
+{
+    BORDER-RIGHT: #c6d2de 1px solid;
+    PADDING-RIGHT: 5px;
+    BORDER-BOTTOM: #54678c 1px solid;
+    PADDING-LEFT: 5px;
+    FONT-WEIGHT: bold;
+    BACKGROUND: #ffffff;
+    PADDING-BOTTOM: 1px;
+    BORDER-LEFT: #c6d2de 1px solid;
+    COLOR: #666666;
+    PADDING-TOP: 1px;
+    BORDER-TOP: #c6d2de 3px double
+}
+.subtotalrow
+{
+    BORDER-RIGHT: #c6d2de 1px solid;
+    PADDING-RIGHT: 5px;
+    BORDER-TOP: #54678c 1px solid;
+    PADDING-LEFT: 5px;
+    FONT-WEIGHT: bold;
+    BACKGROUND: #ffffff;
+    PADDING-BOTTOM: 1px;
+    BORDER-LEFT: #c6d2de 1px solid;
+    COLOR: #666666;
+    PADDING-TOP: 1px;
+    BORDER-BOTTOM: #c6d2de 3px double
+}
+.Hide {
+	display: none !important;
+}
+.Show {	display: ;}
+</STYLE>
+<Script>
+function CheckLiveStock()
+{
+	document.getElementById("submitbutton").disabled = true;
+	document.getElementById("submitbutton").value = "{ProcessingCaption}";
+	if(!AjaxGet("CheckLiveStockAjax.asp?Orders={orderids}", AfterCheckStock, false))
+	{
+		alert("Browser doesn't support AJAX");
+	} 
+	else
+	{
+		if (xmlHttp.responseText=='NOKCap')
+		{
+		  alert('{Cart - Quantity Cap Error Return Cart}');
+		  window.location = 'cart.asp'
+		  return false;
+		}
+		else if (xmlHttp.responseText=='NOK') 
+		{
+			alert('{Cart - Stock Level Error}');
+			window.location = 'cart.asp'
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+	}
+
+}
+	
+function submitForm()
+{
+	var blnCheckData=false;
+	if(CheckLiveStock()==true) {
+		blnCheckData = checkData;
+	}
+	return blnCheckData;
+}
+function AfterCheckStock()
+{
+return true;
+}
+
+function checkData()
+{
+	if(document.form1.elements["ccnumber"].value.length==0)
+	{
+		process_form("{JSEnterCardNoCaption}", "ccnumber");
+		return false;
+	}
+	if(document.form1.elements["cccardcode"])
+	{
+		if(document.form1.elements["cccardcode"].value.length<3 || document.form1.elements["cccardcode"].value.length>4 || isNaN(document.form1.elements["cccardcode"].value))
+		{
+			process_form("{JSEnterCardCodeCaption}", "cccardcode");
+			return false;
+		}
+	}
+	if(document.form1.elements["ccmonth"].value.length<2 || document.form1.elements["ccmonth"].value == "mm")
+	{
+		process_form("{JSEnterExpMonthCaption}", "ccmonth");
+		return false;
+	}
+	if(document.form1.elements["ccyear"].value.length<4 || document.form1.elements["ccyear"].value == "yyyy")
+	{
+		process_form("{JSEnterExpYearCaption}", "ccyear");
+		return false;
+	}
+	if(document.form1.elements["ccemail"].value.length==0)
+	{
+		process_form("{JSEnterEmailCaption}", "ccemail");
+		return false;
+	}
+	if(document.form1.elements["ccfirstname"].value.length==0)
+	{
+		process_form("{JSEnterFirstCaption}", "ccfirstname");
+		return false;
+	}
+	if(document.form1.elements["cclastname"].value.length==0)
+	{
+		process_form("{JSEnterLastCaption}", "cclastname");
+		return false;
+	}
+	if(document.form1.elements["ccaddress"].value.length==0)
+	{
+		process_form("{JSEnterAddressCaption}", "ccaddress");
+		return false;
+	}
+	if(document.form1.elements["cccity"].value.length==0)
+	{
+		process_form("{JSEnterCityCaption}", "cccity");
+		return false;
+	}
+	if(document.form1.elements["ccstate"].value.length==0)
+	{
+		process_form("{JSEnterStateCaption}", "ccstate");
+		return false;
+	}
+	if(document.form1.elements["cczip"].value.length==0)
+	{
+		process_form("{JSEnterZipCaption}", "cczip");
+		return false;
+	}
+	process_form("", "");
+	document.getElementById("submitbutton").style.display = "none";
+	document.getElementById("process").innerHTML = "{ProcessingCaption}";
+}
+function process_form(strMessage, strElement)
+{
+	if (strMessage!='') {
+		alert(strMessage);
+		document.form1.elements[strElement].focus();
+	}
+	document.getElementById("submitbutton").disabled = false;
+	document.getElementById("submitbutton").value = "{ButtonProcessOrderCaption}";
+}
+
+function copyDelToInv() 
+{
+	var strAddress
+	var bContinue
+	
+	bContinue = true;
+	
+	strAddress = document.form1.elements["ccaddress"].value + document.form1.elements["ccaddress2"].value + document.form1.elements["cccity"].value + document.form1.elements["ccstate"].value + document.form1.elements["cczip"].value;
+	if (strAddress != '') {
+		var bResult = confirm("{JSOverwriteAddressCaption}");
+		if(bResult==false) {
+			bContinue = false;
+		}
+	}
+	if (bContinue==true) {
+		document.form1.elements["ccaddress"].value = document.form1.elements["datcaddress1"].value
+		document.form1.elements["ccaddress2"].value = document.form1.elements["datcaddress2"].value
+		document.form1.elements["cccity"].value = document.form1.elements["datcsuburb"].value
+		document.form1.elements["ccstate"].value = document.form1.elements["datcstate"].value
+		document.form1.elements["cczip"].value = document.form1.elements["datcpostcode"].value
+	}
+} 
+
+function SetBudgetCookie() {
+	var name='opsbudget';
+	var value='{budgeteditamt}';
+	var date = new Date();
+	date.setTime(date.getTime()+(1*24*60*60*1000));
+	var expires = "; expires="+date.toGMTString();
+	document.cookie = name+"="+value+expires+"; path=/";
+	history.go(-1);
+}
+
+function showhelp(strHeader, strHelp,evt, blnShow) {
+  
+  var tempX = 0;
+  var tempY = 0;
+  var strVis="hidden";
+  var IE = document.all?true:false;
+  var hp = document.getElementById("help_popup").style;
+
+  document.getElementById("help_header").innerHTML = "";
+  document.getElementById("help_body").innerHTML =  "";
+  hp.visibility = "hidden";
+
+
+  if (blnShow)
+  {
+
+	tempX = mouseXPos(evt);
+	tempY = mouseYPos(evt);
+    document.getElementById("help_header").innerHTML = strHeader;
+    document.getElementById("help_body").innerHTML = strHelp;
+	hp.top = tempY-10 + 'px';
+	hp.left = tempX+20 + 'px';
+	strVis = "visible";
+  }  
+
+    hp.visibility = strVis;
+
+}
+
+function mouseXPos(evt) {
+	if (evt.pageX) return evt.pageX;
+	else if (evt.clientX){
+		return evt.clientX + (document.documentElement.scrollLeft ?
+		document.documentElement.scrollLeft :
+		document.body.scrollLeft);
+	}
+	else return null;
+}
+
+function mouseYPos(evt) {
+	if (evt.pageY) return evt.pageY;
+	else if (evt.clientY){
+		return evt.clientY + (document.documentElement.scrollTop ?
+		document.documentElement.scrollTop :
+		document.body.scrollTop);
+	}
+	else return null;
+}
+window.onunload = function(){};
+</Script>
+<div style="visibility: hidden; position: absolute; filter:alpha(opacity=85); -moz-opacity:0.85; opacity: 0.85; z-index: 1; top: 5px; left: 5px; width:200px;" id="help_popup"> 
+<IFRAME id="frTest" style="z-index:-1;width:200px;height:200;position:absolute;top:0;left:0;display:inline;" frameborder=0 scrolling=no marginwidth=0 src="" marginheight=0></iframe>
+  <table class="bordertable" width="200">
+    <tr><td class=bordertableheader id="help_header"></td></tr>
+    <tr><td id="help_body"></td></tr>
+  </table>
+</div>
+
+<!--TabTableStart-->
+<!--ORDERS-->
+
+<input type="hidden" name="cc" value="{CC}">
+            <table border="0" cellpadding="10" cellspacing="0" class=wrapper width="100%" >
+              <tr>
+                <td colspan=10>
+                  
+<!--ReturnCard-->
+				  <table border="0" cellpadding="0" cellspacing="0" class=wrapper>
+                    <tr><td valign="top" width="90" nowrap><b>{CartNumberCaption}</b>&nbsp;</td><td>{CartId}</td></tr>
+                    <tr><td valign="top" width="90" nowrap><b>{BankReferenceCaption}</b>&nbsp;</td><td>{Description}</td></tr>
+				  </table><br>
+<!--/ReturnCard-->
+<!--DeliveryDetails-->
+				<table class="table checkout">
+                    <tr>
+						<td><b><u>{OrderedByCaption}</u></b><br>{OrderDetails}</td>
+						<td><b><u>{DeliverToCaption}</u></b><br><br>{CartAddress}</td>
+					</tr>
+              	</table>
+<!--/DeliveryDetails-->
+
+				<table class="table checkoutitems">
+            	<thead>
+                    <tr>
+                      <th>{OrderNumberCaption}</th>
+                      <th>{DateCaption}</th>
+                      <th>{QuantityCaption}</th>
+                      <!-- <th>{OrderNameCaption}</th> -->
+                      <th colspan="2">{ProductNameCaption}</th>
+                      <!--COST--><th align="right">{CostCaption}</th><!--/COST-->
+                      <!--Delivery--><th align="left">{DeliveryCaption}</th><!--/Delivery-->
+                    </tr>
+                </thead>
+                <tbody>
+<!--ROW-->
+                    <tr>
+                      <td id="firstcolumn" class="datatd">{OrderNumber}</TD>
+                      <td class="datatd">{Date}</TD>
+                      <td class="datatd">{Quantity}</TD>
+                      <!-- <td class="datatd">{EmpName}</TD> -->
+                      <td class="datatd" colspan="2" nowrap>{TemplateName}</TD>
+                      <!--COST--><td class="datatd" id=lastcolumn align="right">{Cost}</TD><!--/COST-->
+                      <!--Delivery--><td class="datatd" nowrap>{Address}</TD><!--/Delivery-->
+                      </td>
+                    </tr>
+<!--Postage-->
+					<TR>
+                      <td id="firstcolumn" class="datatd"></TD>
+                      <td class="datatd"></TD>
+                      <td class="datatd"></TD>
+                      <td class="datatd" colspan="2" align="right">{PostageCaption}</TD>
+                      <!--COST--><td class="datatd" id=lastcolumn align="right">{Postage}</TD><!--/COST-->
+                      <!--Delivery--><td class="datatd"></TD><!--/Delivery-->
+                    </tr>
+<!--/Postage-->
+<!--PurchaseListPrice-->
+					<TR>
+                      <td id=firstcolumn class="datatd"></TD>
+                      <td class="datatd"></TD>
+                      <td class="datatd"></TD>
+					  <td class="datatd" colspan="2" align="right">{PurchaseListPriceCaption}</TD>
+                      <!--COST--><td class="datatd" id=lastcolumn align="right">{PurchaseListPrice}</TD><!--/COST-->
+                      <!--Delivery--><td class="datatd"></TD><!--/Delivery-->
+                    </tr>
+<!--/PurchaseListPrice-->
+<!--/ROW-->
+<!--COST-->
+              <TR><td class="DataTD" id="firstcolumn" colspan="5" align="right"><b>{CostOfItemsCaption}</b></TD><td class="DataTD" id="lastcolumn" align="right"><b>{totalcost}</b></TD></TR>			  
+              <!--HANDLING--><TR class="{ShowHideHandling}"><td class="DataTD" id="firstcolumn" colspan="5" align="right"><b>{HandlingCaption}</b></TD><td class="DataTD" id="lastcolumn" align="right"><span id=handlingcost>{handling}</span></TD></TR><!--/HANDLING-->
+              <!--FREIGHT--><TR class="{ShowHideFreight}"><td class="DataTD" id="firstcolumn" colspan="5" align="right"><b>{FreightCaption}</b></TD><td class="DataTD" id="lastcolumn" align="right"><span id=freightcost>{freight}</span></TD></TR><!--/FREIGHT-->
+			  <!--FREIGHTHANDLING--><TR class="{ShowHideFreightHandling}"><td class="DataTD" id="firstcolumn" colspan="5" align="right"><b>{FreightCaption}</b></TD><td class="DataTD" id="lastcolumn" align="right"><span id=freighthandlingcost>{freighthandling}</span></TD></TR><!--/FREIGHTHANDLING-->
+              <!--DISCOUNT--><TR><td class="DataTD" id="firstcolumn" colspan="5" align="right"><b><font color=ff0000>* {GroupDiscountCaption}</font></b></TD><td class="DataTD" id="lastcolumn" align="right"><span><font color=ff0000>-{DiscountPrice}</font></span></TD></TR><!--/DISCOUNT-->
+			  <!--TAX--><TR><td class="subtotalrow" id="firstcolumn" colspan="5" align="right"><b>{TotalExTaxCaption}</b></TD><td class="subtotalrow" id="lastcolumn" align="right"><b><span id=subtotal>{subtotal}</span></b></TD></TR>
+              <TR><td class="DataTD" id="firstcolumn" colspan="5" align="right"><b>{TaxLabel}</b></TD><td class="DataTD" id="lastcolumn" align="right"><span id=tax>{tax}</span></TD></TR><!--/TAX-->
+			  <!--DETAILEDTAXES--><TR><td class="DataTD" id="firstcolumn" colspan="5" align="right"><b><!--DETAILEDTAXES_NO_TAXED-->{NoCaption} {TaxLabel}<!--/DETAILEDTAXES_NO_TAXED--><!--DETAILEDTAXES_TAXED-->{TaxLabel} {AtCaption} {TaxRate}%<!--/DETAILEDTAXES_TAXED--></b> ({BaseCaption} {CurrencySymbol}<span id='NetTaxedAt{TaxRateNeutralFormat}'>{NetTaxed}</span>)</TD><td class="DataTD" id="lastcolumn" align="right"><b>{CurrencySymbol}<span id='TaxAt{TaxRateNeutralFormat}'>{tax}</span></b></TD><input type="hidden" id='OriginalNetTaxedAt{TaxRateNeutralFormat}' value="{NetTaxedNeutralFormat}"><input type="hidden" id='hidNetTaxedAt{TaxRateNeutralFormat}' name='hidNetTaxedAt{TaxRateNeutralFormat}' value="{NetTaxedNeutralFormat}"></TR><!--/DETAILEDTAXES-->
+              <TR><td class="totalrow" id="firstcolumn" colspan="5" align="right"><b>{TotalItemCostCaption}</b></TD><td class="totalrow" id="lastcolumn" align="right"><b><span id=total>{total}</span><input type="hidden" id='hidtotal' name='hidtotal' value="{totalNeutralFormat}"/></b></b></TD></TR>
+			  <!--VOUCHER--><TR id="voucherrow" class="Hide"><td id="firstcolumn" class="DataTD" colspan="5" align="right"><b>{VoucherCaption} {VoucherName}</b> <a href="javascript:RemoveVoucher('{VoucherRowNumber}');"><img src="images/delete.gif" border="0" title="{DeleteVoucherButtonCaption}" style="vertical-align:middle"></a></TD><td id="lastcolumn" class="DataTD" align="right">{VoucherAmount}<input type=hidden name="VoucherIds" value="{VoucherId}"></TD></TR><!--/VOUCHER-->
+			  <TR id="totaltopayrow" class="Hide"><td id="firstcolumn" class="totalrow" colspan="5" align="right"><b>{TotalToPayCaption}</b></TD><td class="totalrow" id="lastcolumn" align="right"><b><span id=totaltopay>{total}</span></b><input type="hidden" id='hidtotaltopay' name='hidtotaltopay' value="{totalNeutralFormat}"/></TD></TR>
+<!--BudgetTotals-->
+			  <!--BudgetAllocation--><TR><td class="totalrow" id="firstcolumn" colspan="5" align="right"><b>{AllocatedToBudgetCaption}</b></TD><td class="totalrow" id="lastcolumn" align="right"><b><!--BudgetDisplay--><span id=spnbudgetamount>{BudgetAllocated}</span><!--/BudgetDisplay--><!--BudgetEdit--><span id=spnBudgetEdit name=spnBudgetEdit></span><!--/BudgetEdit--></b></b></TD></TR><!--/BudgetAllocation-->
+			  <!--BudgetAllocation--><TR><td class="subtotalrow" id="firstcolumn" colspan="5" align="right"><b>{TotalToPayCaption}</b></TD><td class="subtotalrow" id="lastcolumn" align="right"><b><span id=budgettotal>{budgettotaltopay}</span></b></b></TD></TR><!--/BudgetAllocation-->
+<!--/BudgetTotals-->
+<!--/COST-->
+				</tbody>
+            </table>
+                  
+                
+<!--Paid-->
+              <TR><td class="DataTD" id="firstcolumn" colspan="5" align="right"><b>{TotalPaymentCaption}</b></TD><td class="DataTD" id="lastcolumn" align="right"><b>{total}</b></TD></TR>
+              <TR><td class="totalrow" id="firstcolumn" colspan="5" align="right"><b>{BalanceDueCaption}</b></TD><td class="totalrow" id="lastcolumn" align="right"><b>{CurrencySymbol}{BalanceDue}</b></TD></TR>
+<!--/Paid-->
+<!--/COST-->
+<!--Payment-->
+<div class="payment-table">
+{PaymentHTML}
+</div>
+<!--/Payment-->
+
+<!--BudgetAllocation--><input type="hidden" name="budgeteditamt" value="{budgeteditamt}"><!--/BudgetAllocation-->
+            </table>
+</form>
+<!--/ORDERS-->
+
+<!--TabTableEnd-->

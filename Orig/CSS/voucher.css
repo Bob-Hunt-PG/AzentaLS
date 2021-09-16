@@ -1,0 +1,113 @@
+.Lookup.Voucher #maintable, .Lookup.Voucher .page-top {
+    color: #000000;
+   }
+   
+   .Lookup.Voucher {
+    color: #ffffff;
+   }
+   
+   .Lookup.Voucher .alert, .Lookup.Voucher .nav, .Lookup.Voucher .footer-container, .Lookup.Voucher .page-title, .Lookup.Voucher .help {
+    display: none;
+   }
+
+   .Lookup.Voucher .catalog-hero,
+.Lookup.Voucher .footer-container,
+.Lookup.Voucher .header-links,
+.Lookup.Voucher .sf-header,
+.Lookup.Voucher .help {
+    display: none;
+}
+.Checkout .highslide-body {
+    height: auto !important;
+}
+.Lookup.Voucher table.wrapper:last-of-type tr td {
+    border: 1px solid #ebebeb;
+    padding: 8px;
+    font-size: 14px;
+}
+.color.asphalt {
+    background: #6a6869;
+}
+
+.Checkout iframe {
+    border: none;
+    width: 100%;
+}
+
+.Lookup.Voucher {
+    overflow: hidden;
+}
+
+.Lookup.Voucher #maintable {
+    padding-top: 15px;
+}
+
+.Lookup.Voucher .pg-c-voucher--field label {
+    margin: 0;
+    font-size: 1rem;
+}
+
+.Lookup.Voucher .pg-c-voucher--field {
+    justify-content: center;
+    flex-direction: column;
+}
+
+.Lookup.Voucher .pg-c-voucher--search {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
+.Checkout button.swal2-cancel.swal2-styled {
+    background: #e44545;
+    padding: 1rem 2.5rem;
+    border: 1px solid #e44545;
+    border-radius: 5rem;
+    font-weight: 600;
+    color: #fff;
+    position: absolute;
+    font-size: 1.15rem;
+    bottom: 25px;
+    left: 30px;
+}
+
+.Lookup.Voucher input[type="submit"],
+.Lookup.Voucher input[value="Apply"] {
+    display: block !important;
+    background: #00529a;
+    padding: 1rem 2.5rem;
+    border: 1px solid #00529a;
+    border-radius: 5rem;
+    font-weight: 600;
+    color: #fff;
+    font-size: 1.15rem;
+}
+
+.Lookup.Voucher input[type="Button"] {
+    display: none;
+}
+
+.Lookup.Voucher #vouchercodesearch {
+    border-radius: 5rem;
+    border: 2px solid #00529a;
+    padding: 8px 12px;
+    text-align: center;
+    outline: none;
+    width: 100%;
+}
+
+.Lookup.Voucher .pg-c-voucher--table {
+    border-bottom: 1px solid #ebebeb;
+}
+
+.Lookup.Voucher .pg-c-voucher--table td {
+    display: none;
+}
+
+.Lookup.Voucher .pg-c-voucher--table td:first-of-type {
+    display: table-cell;
+}
+
+.Lookup.Voucher .pg-c-voucher--table td.tableheader {
+    font-weight: 600;
+}
