@@ -356,9 +356,9 @@
 			    opacity: 1;
 			}
 
-			.nav .nav-links .dropdown-menu > .container {
+			/* .nav .nav-links .dropdown-menu > .container {
 			    
-			}
+			} */
 			
 			.nav .nav-links ul > li > a,
 			.nav .nav-links ul > li > .dropdown > a {
@@ -439,9 +439,9 @@
 			    color: #333;
 			}
 
-			.nav .nav-links ul > li > .dropdown ul.all-products li a {
+			/* .nav .nav-links ul > li > .dropdown ul.all-products li a {
 			    
-			}
+			} */
 
 			.nav .nav-links ul > li > .dropdown > .dropdown-menu > ul > li {
 				width: 100%;
@@ -503,7 +503,13 @@
 				width: 100%;
 			}
 
-			.hero-container > .hero-content > .hero > .hero-left {
+			/*  IMPORTANT!  */
+			/*  For the AZENTA website, hero-left as been commented out AND the related CSS below.  */
+			/*  The text is currently part of the hero image.  */
+			/*  If you model this page, or if the hero image changes, you may need to uncomment the hero-left */
+			/*  AND all of the related css below. (See index.html & index48.html) */
+
+			/* .hero-container > .hero-content > .hero > .hero-left {
 			    height: 100%;
 			    width: 50%;
 			    display: flex;
@@ -511,24 +517,24 @@
 			    align-items: center;
 			    background: rgba(1,52,92,0.5);
 			    padding: 40px;
-			}
+			} */
 
-			.hero-container > .hero-content > .hero > .hero-left > .hero-text {
+			/* .hero-container > .hero-content > .hero > .hero-left > .hero-text {
 			    width: 100%;
 			    max-width: 525px;
 			    text-align: left;
-			}
+			} */
 
-			.hero-container > .hero-content > .hero > .hero-left > .hero-text h3 {
+			/* .hero-container > .hero-content > .hero > .hero-left > .hero-text h3 {
 			    font-size: 74px;
-			}
+			} */
 
-			.hero-container > .hero-content > .hero > .hero-left > .hero-text p {
+			/* .hero-container > .hero-content > .hero > .hero-left > .hero-text p {
 			    font-size: 20px;
 			    padding: 30px 0px;
-			}
+			} */
 
-			.hero-container > .hero-content > .hero > .hero-left > .hero-text .btn {
+			/* .hero-container > .hero-content > .hero > .hero-left > .hero-text .btn {
 			    background: transparent;
 			    padding: 0;
 			    border: 2px solid #ffffff;
@@ -536,19 +542,19 @@
 			    color: #ffffff;
 			    font-weight: 700;
 			    font-size: 16px;
-			}
+			} */
 
-			.hero-container > .hero-content > .hero > .hero-left > .hero-text .btn i {
+			/* .hero-container > .hero-content > .hero > .hero-left > .hero-text .btn i {
 			    padding: 12px;
 			    font-size: 14px;
 			    border-right: 2px solid #fff;
-			}
+			} */
 
-			.hero-container > .hero-content > .hero > .hero-left > .hero-text .btn span {
+			/* .hero-container > .hero-content > .hero > .hero-left > .hero-text .btn span {
 			    display: inline-block;
 			    padding: 0px 16px;
 			    vertical-align: middle;
-			}
+			} */
 			
 			.hero-container > .hero-content > .hero p > b {
 				font-weight: 400;
@@ -707,10 +713,10 @@
 				background: #eaeaea;
 			}
 
-			.product-filter {
+			/* .product-filter {
 
 			}
-
+ */
 			.product-filter h2 {
 			    font-size: 18px;
 			    text-transform: uppercase;
@@ -1161,13 +1167,13 @@
 				max-height: 400px;
 			}
 
-			.front-back-details .product-description {
+			/* .front-back-details .product-description {
 				
-			}
+			} */
 
-			.front-back-details .product-description .descriptions .description {
+			/* .front-back-details .product-description .descriptions .description {
 
-			}
+			} */
 
 			.front-back-details .product-description .descriptions .description .colors {
 			    padding: 10px 0 25px;
