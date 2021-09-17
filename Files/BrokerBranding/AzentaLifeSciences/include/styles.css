@@ -501,6 +501,7 @@
 			.hero-container > .hero-content > .hero#hero1 {
 				background-image: url(AzentaStorefrontGraphicText.png);
 				width: 100%;
+				object-fit: contain;
 			}
 
 			/*  IMPORTANT!  */
