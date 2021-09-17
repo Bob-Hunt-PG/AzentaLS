@@ -491,7 +491,9 @@
 				object-fit: contain;
 				justify-content: start;
 				align-items: center;
-				background-position: center center;
+				/* background-position: center center; */
+				/* adjustment for Azenta background w/ text */
+				background-position: 75% 50%;
 				background-repeat: no-repeat;
 				-webkit-background-size: cover;
 				-moz-background-size: cover;
