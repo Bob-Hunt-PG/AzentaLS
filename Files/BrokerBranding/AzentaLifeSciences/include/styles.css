@@ -385,6 +385,11 @@
 				cursor: pointer;
 			}
 
+			/* Creating hover effects for Azenta nav bar */
+			.nav-hover:hover{
+				color: #55C8D2;
+			}
+
 			.nav .nav-links ul > li > .dropdown > a > .fa {
 			    font-size: 15px;
 			    margin-left: 8px;
