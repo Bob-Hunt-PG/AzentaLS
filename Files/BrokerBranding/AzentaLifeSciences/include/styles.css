@@ -103,7 +103,7 @@
 			button.btn-primary:hover,
 			button.btn-primary:focus {
 				background: none;
-				border: 3px solid ##d17d38;
+				border: 3px solid #fa9646;
 			    color: #333333;
 			}
 
@@ -1264,7 +1264,7 @@
 
 			.footer {
 				padding: 50px 0 25px;
-				background: #1f1f1f;
+				background: #706f6f;
 			}
 			
 			.footer-panel {
