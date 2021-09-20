@@ -54,9 +54,9 @@
 			}
 			
 			a.btn {
-				background: #6b3077;
+				background: #826ec3;
 				padding: 10px 15px;
-				border: 3px solid #6b3077;
+				border: 3px solid #826ec3;
 				border-radius: 0;
 				color: #ffffff;
 				font-weight: 400;
@@ -565,7 +565,7 @@
 			.hero-container > .hero-content > .hero p > b {
 				font-weight: 400;
 				padding: 10px 15px;
-				background: #6b3077;
+				background: #826ec3;
 				text-transform: uppercase;
 			}
 
@@ -1470,7 +1470,7 @@ input[value="<< Main Menu"] {
 }
 
 #masterhelptext > a {
-	color: #6b3077;
+	color: #826ec3;
 }
 
 .table.register>tbody>tr>td {
