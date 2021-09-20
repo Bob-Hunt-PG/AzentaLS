@@ -67,7 +67,7 @@
 				background: none;
 			    margin: 40px 0 0 0;
 			    padding: 10px 15px;
-			    border: 3px solid #ff8204;
+			    border: 3px solid #;
 			    border-radius: 100px;
 			    color: #ffffff;
 			    font-weight: 400;
@@ -80,7 +80,7 @@
 				/* padding: 10px; 15px; */
 				/* fix typo? */
 				padding: 10px 15px;
-				border: 3px solid #ff8204;
+				border: 3px solid ##d17d38;
 				border-radius: 0;
 				color: #333333;
 				font-weight: 400;
@@ -103,7 +103,7 @@
 			button.btn-primary:hover,
 			button.btn-primary:focus {
 				background: none;
-				border: 3px solid #ff8204;
+				border: 3px solid ##d17d38;
 			    color: #333333;
 			}
 
@@ -374,7 +374,7 @@
 			}
 
 			.nav .nav-links ul > li > .dropdown.open > a {
-				color: #ff8204;
+				color: ##d17d38;
 			}
 
 			.nav .nav-links ul > li > a:hover,
@@ -414,7 +414,7 @@
 			.nav .nav-links ul > li > .dropdown ul li.category h1 {
 				font-size: 50px;
 			    margin: 0 0 10px 0;
-			    color: #ff8204;
+			    color: ##d17d38;
 			}
 
 			.nav .nav-links ul > li > .dropdown ul li.category h1 img {
@@ -980,7 +980,7 @@
 			    font-weight: 600;
 			    margin: 0;
 			    padding: 5px 0 25px;
-			    color: #ff8204;
+			    color: ##d17d38;
 			    text-align: left;
 			}
 
@@ -1444,7 +1444,7 @@ input[value="<< Main Menu"] {
 .table.login .table tr td input.btn,
 .table.register tr td input.btn,
 .table.update .table tr td input.btn {
-    border: 2px solid #ff8204;
+    border: 2px solid ##d17d38;
     color: #333333;
     padding: 5px 25px;
 }
