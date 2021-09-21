@@ -465,7 +465,21 @@
 				padding: 8px 15px;
 			}
 			
+				/**
+		  *  Featured Categories Styles
+		  *  ----------------------------------------------------------------------------
+		  *
+		  *  The CSS below sets the styles for the Featured Categories and Featured Category Text
+		  *  on the home page.
+		  *
+		  *  ----------------------------------------------------------------------------
+		  */
+			.col-md-3{
+				align-items: bottom;
+			}
 			
+
+
 		/**
 		  *  Hero Styles
 		  *  ----------------------------------------------------------------------------
