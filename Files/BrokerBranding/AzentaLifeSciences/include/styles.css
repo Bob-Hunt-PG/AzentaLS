@@ -93,7 +93,7 @@
 
 			.addtocart {
 			    text-align: right;
-			    padding-top: 10px;
+			    margin-top:10px;
 			}
 
 			.product-panel a.btn:hover,
@@ -475,10 +475,35 @@
 		  *  ----------------------------------------------------------------------------
 		  */
 			.col-md-3{
-				align-items: bottom;
+				align-items: baseline;
 			}
-			
 
+			#categoryContainer1 {
+				margin-top:61.8px;
+				
+			}
+
+			#categoryContainer2 {
+				margin-top:0.833px;
+			}
+
+			#categoryContainer3 {
+				margin-top:37.533px;
+			}
+			#categoryContainer4 {
+				margin-top:15.533px;
+			}
+
+			#categoryContainer5 {
+				margin-top:59.7px;
+			}
+
+			#categoryContainer6 {
+				margin-top:0px;
+			}
+
+
+			
 
 		/**
 		  *  Hero Styles
@@ -675,7 +700,8 @@
 
 			.product-catalog .product-content a > p {
 			    text-align: center;
-			    color: #cccccc;
+			    /* color: #cccccc; */
+				color: #78d2aa;
 			    font-size: 12px;
 			}
 
