@@ -38,8 +38,8 @@
 	.highslide-image {
 		border-bottom: 1px solid white;
 	}
-	.highslide-image-blur {
-	}
+	/* .highslide-image-blur {
+	} */
 	.highslide-caption {
 		display: none;
 		border-bottom: 1px solid white;
@@ -153,13 +153,15 @@
 		left: 0.5em;
 	}
 
-	.highslide-wrapper .highslide-body {
-	}
+	/* .highslide-wrapper .highslide-body {
+
+	} */
+
 </style>
 <script language="JavaScript" type="text/javascript">
-	<!--ProductIds-->
-	<!--ProductCosting-->
-	<!--ExtraJavaScript-->
+	// <!--ProductIds-->
+	// <!--ProductCosting-->
+	// <!--ExtraJavaScript-->
 
 	function CheckOptions()
 	{
@@ -250,7 +252,7 @@
 
 	function CheckExtraFields(ProductId)
 	{
-		<!--CheckProductFields-->
+		// <!--CheckProductFields-->
 		return true;
 	}
 
@@ -798,7 +800,7 @@ function FillCostInfo(strProduct, intArrayIndex)
 	</table>
 </div>
 <!--DynamicCostCentres-->
-<form name="frmCCs" method="Post">
+<!-- <form name="frmCCs" method="Post">
 	<table width="100%" class="bordertable">
 		<tr>
 			<td class="bordertableheader" colspan="3">{CostCentreCaption}</td>
@@ -811,14 +813,15 @@ function FillCostInfo(strProduct, intArrayIndex)
 		</tr>
 	</table>
 	<br/>
-</form>
+</form> -->
 <!--/DynamicCostCentres-->
 
 <!--TABTABLE-->
 <!--TabTableStart-->
 <form name="Form1" method="Post" onSubmit="return CheckOptions()">
 	<blockquote class="help" id="masterhelptext">{WHERE}</blockquote>
-	<table class="table" data-toggle="table" data-search="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true">
+	<!-- <table class="table" data-toggle="table" data-search="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"> -->
+	<table class="table" data-toggle="table" data-search="false" data-show-refresh="false" data-show-toggle="false" data-show-columns="false">
 		<script type="text/javascript" language="javascript">
 			hs.registerOverlay({
 			thumbnailId: 'thumbimg{id}',
@@ -856,7 +859,8 @@ function FillCostInfo(strProduct, intArrayIndex)
 	<input type="submit" name="btnCartContinue" id="btnCartContinue" value="{AddToCartButtonCaption}">
 	<input type="submit" name="btnCart" id="btnCart" value="{AddToCartCheckoutButtonCaption}">
 	<!--/ADDCART-->
-    <table class="table" data-toggle="table" data-search="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-sort-name="{ProductCaption}">
+	<!-- <table class="table" data-toggle="table" data-search="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-sort-name="{ProductCaption}"> -->
+    <table class="table" data-toggle="table" data-search="false" data-show-refresh="false" data-show-toggle="false" data-show-columns="false" data-sort-name="{ProductCaption}">
 	    <thead>
 	    	<tr>
 	    		<th data-field="Empty">&nbsp;</th>

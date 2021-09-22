@@ -54,9 +54,9 @@
 			}
 			
 			a.btn {
-				background: #6b3077;
+				background: #6959a1;
 				padding: 10px 15px;
-				border: 3px solid #6b3077;
+				border: 3px solid #6959a1;
 				border-radius: 0;
 				color: #ffffff;
 				font-weight: 400;
@@ -67,7 +67,7 @@
 				background: none;
 			    margin: 40px 0 0 0;
 			    padding: 10px 15px;
-			    border: 3px solid #ff8204;
+			    border: 3px solid #fa9646;
 			    border-radius: 100px;
 			    color: #ffffff;
 			    font-weight: 400;
@@ -80,7 +80,7 @@
 				/* padding: 10px; 15px; */
 				/* fix typo? */
 				padding: 10px 15px;
-				border: 3px solid #ff8204;
+				border: 3px solid #d17d38;
 				border-radius: 0;
 				color: #333333;
 				font-weight: 400;
@@ -93,7 +93,7 @@
 
 			.addtocart {
 			    text-align: right;
-			    padding-top: 10px;
+			    margin-top:10px;
 			}
 
 			.product-panel a.btn:hover,
@@ -103,7 +103,7 @@
 			button.btn-primary:hover,
 			button.btn-primary:focus {
 				background: none;
-				border: 3px solid #ff8204;
+				border: 3px solid #fa9646;
 			    color: #333333;
 			}
 
@@ -356,9 +356,9 @@
 			    opacity: 1;
 			}
 
-			.nav .nav-links .dropdown-menu > .container {
+			/* .nav .nav-links .dropdown-menu > .container {
 			    
-			}
+			} */
 			
 			.nav .nav-links ul > li > a,
 			.nav .nav-links ul > li > .dropdown > a {
@@ -374,7 +374,7 @@
 			}
 
 			.nav .nav-links ul > li > .dropdown.open > a {
-				color: #ff8204;
+				color: #d17d38;
 			}
 
 			.nav .nav-links ul > li > a:hover,
@@ -383,6 +383,11 @@
 				/* color: #0090bc; */
 				color: #55C8D2;
 				cursor: pointer;
+			}
+
+			/* Creating hover effects for Azenta nav bar */
+			.nav-hover:hover{
+				color: #55C8D2;
 			}
 
 			.nav .nav-links ul > li > .dropdown > a > .fa {
@@ -414,7 +419,7 @@
 			.nav .nav-links ul > li > .dropdown ul li.category h1 {
 				font-size: 50px;
 			    margin: 0 0 10px 0;
-			    color: #ff8204;
+			    color: #d17d38;
 			}
 
 			.nav .nav-links ul > li > .dropdown ul li.category h1 img {
@@ -439,9 +444,9 @@
 			    color: #333;
 			}
 
-			.nav .nav-links ul > li > .dropdown ul.all-products li a {
+			/* .nav .nav-links ul > li > .dropdown ul.all-products li a {
 			    
-			}
+			} */
 
 			.nav .nav-links ul > li > .dropdown > .dropdown-menu > ul > li {
 				width: 100%;
@@ -460,7 +465,46 @@
 				padding: 8px 15px;
 			}
 			
+				/**
+		  *  Featured Categories Styles
+		  *  ----------------------------------------------------------------------------
+		  *
+		  *  The CSS below sets the styles for the Featured Categories and Featured Category Text
+		  *  on the home page.
+		  *
+		  *  ----------------------------------------------------------------------------
+		  */
+			.col-md-3{
+				align-items: baseline;
+			}
+
+			#categoryContainer1 {
+				margin-top:61.8px;
+				
+			}
+
+			#categoryContainer2 {
+				margin-top:0.833px;
+			}
+
+			#categoryContainer3 {
+				margin-top:37.533px;
+			}
+			#categoryContainer4 {
+				margin-top:15.533px;
+			}
+
+			#categoryContainer5 {
+				margin-top:59.7px;
+			}
+
+			#categoryContainer6 {
+				margin-top:0px;
+			}
+
+
 			
+
 		/**
 		  *  Hero Styles
 		  *  ----------------------------------------------------------------------------
@@ -472,6 +516,7 @@
 		  */
 			.hero-container {
 				position: relative;
+				object-fit: contain;
 				width: 100%;
 				height: 100%;
 				max-height: 550px;
@@ -479,15 +524,20 @@
 
 			.hero-container > .hero-content {
 			    position: relative;
+				object-fit: contain;
+				width: 100%;
 			    height: 100%;
 			    max-height: 550px;
 			}
 			  
 			.hero-container > .hero-content > .hero {
 				display: flex;
+				object-fit: contain;
 				justify-content: start;
 				align-items: center;
-				background-position: center center;
+				/* background-position: center center; */
+				/* adjustment for Azenta background w/ text */
+				background-position: 10% 50%;
 				background-repeat: no-repeat;
 				-webkit-background-size: cover;
 				-moz-background-size: cover;
@@ -500,9 +550,16 @@
 			.hero-container > .hero-content > .hero#hero1 {
 				background-image: url(AzentaStorefrontGraphicText.png);
 				width: 100%;
+				object-fit: contain;
 			}
 
-			.hero-container > .hero-content > .hero > .hero-left {
+			/*  IMPORTANT!  */
+			/*  For the AZENTA website, hero-left as been commented out AND the related CSS below.  */
+			/*  The text is currently part of the hero image.  */
+			/*  If you model this page, or if the hero image changes, you may need to uncomment the hero-left */
+			/*  AND all of the related css below. (See index.html & index48.html) */
+
+			/* .hero-container > .hero-content > .hero > .hero-left {
 			    height: 100%;
 			    width: 50%;
 			    display: flex;
@@ -510,24 +567,24 @@
 			    align-items: center;
 			    background: rgba(1,52,92,0.5);
 			    padding: 40px;
-			}
+			} */
 
-			.hero-container > .hero-content > .hero > .hero-left > .hero-text {
+			/* .hero-container > .hero-content > .hero > .hero-left > .hero-text {
 			    width: 100%;
 			    max-width: 525px;
 			    text-align: left;
-			}
+			} */
 
-			.hero-container > .hero-content > .hero > .hero-left > .hero-text h3 {
+			/* .hero-container > .hero-content > .hero > .hero-left > .hero-text h3 {
 			    font-size: 74px;
-			}
+			} */
 
-			.hero-container > .hero-content > .hero > .hero-left > .hero-text p {
+			/* .hero-container > .hero-content > .hero > .hero-left > .hero-text p {
 			    font-size: 20px;
 			    padding: 30px 0px;
-			}
+			} */
 
-			.hero-container > .hero-content > .hero > .hero-left > .hero-text .btn {
+			/* .hero-container > .hero-content > .hero > .hero-left > .hero-text .btn {
 			    background: transparent;
 			    padding: 0;
 			    border: 2px solid #ffffff;
@@ -535,24 +592,24 @@
 			    color: #ffffff;
 			    font-weight: 700;
 			    font-size: 16px;
-			}
+			} */
 
-			.hero-container > .hero-content > .hero > .hero-left > .hero-text .btn i {
+			/* .hero-container > .hero-content > .hero > .hero-left > .hero-text .btn i {
 			    padding: 12px;
 			    font-size: 14px;
 			    border-right: 2px solid #fff;
-			}
+			} */
 
-			.hero-container > .hero-content > .hero > .hero-left > .hero-text .btn span {
+			/* .hero-container > .hero-content > .hero > .hero-left > .hero-text .btn span {
 			    display: inline-block;
 			    padding: 0px 16px;
 			    vertical-align: middle;
-			}
+			} */
 			
 			.hero-container > .hero-content > .hero p > b {
 				font-weight: 400;
 				padding: 10px 15px;
-				background: #6b3077;
+				background: #6959a1;
 				text-transform: uppercase;
 			}
 
@@ -643,7 +700,8 @@
 
 			.product-catalog .product-content a > p {
 			    text-align: center;
-			    color: #cccccc;
+			    /* color: #cccccc; */
+				color: #78d2aa;
 			    font-size: 12px;
 			}
 
@@ -706,10 +764,10 @@
 				background: #eaeaea;
 			}
 
-			.product-filter {
+			/* .product-filter {
 
 			}
-
+ */
 			.product-filter h2 {
 			    font-size: 18px;
 			    text-transform: uppercase;
@@ -967,7 +1025,7 @@
 			    font-weight: 600;
 			    margin: 0;
 			    padding: 5px 0 25px;
-			    color: #ff8204;
+			    color: #d17d38;
 			    text-align: left;
 			}
 
@@ -1160,13 +1218,13 @@
 				max-height: 400px;
 			}
 
-			.front-back-details .product-description {
+			/* .front-back-details .product-description {
 				
-			}
+			} */
 
-			.front-back-details .product-description .descriptions .description {
+			/* .front-back-details .product-description .descriptions .description {
 
-			}
+			} */
 
 			.front-back-details .product-description .descriptions .description .colors {
 			    padding: 10px 0 25px;
@@ -1251,7 +1309,7 @@
 
 			.footer {
 				padding: 50px 0 25px;
-				background: #1f1f1f;
+				background: #706f6f;
 			}
 			
 			.footer-panel {
@@ -1431,7 +1489,7 @@ input[value="<< Main Menu"] {
 .table.login .table tr td input.btn,
 .table.register tr td input.btn,
 .table.update .table tr td input.btn {
-    border: 2px solid #ff8204;
+    border: 2px solid #d17d38;
     color: #333333;
     padding: 5px 25px;
 }
@@ -1457,7 +1515,7 @@ input[value="<< Main Menu"] {
 }
 
 #masterhelptext > a {
-	color: #6b3077;
+	color: #6959a1;
 }
 
 .table.register>tbody>tr>td {
