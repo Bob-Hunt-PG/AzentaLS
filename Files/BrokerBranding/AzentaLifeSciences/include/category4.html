@@ -894,7 +894,7 @@ function FillCostInfo(strProduct, intArrayIndex)
 					<input type="hidden" name="ProductName{templateid}" value="{templatename}">
 				</td>
 				<td>
-					<div style="display:{hidedownloadcheckbox}" id=downloadonlycheckbox>Download&nbsp;only?&nbsp;<input type=checkbox {checkdownload}  name=DownloadOnly{templateid} id=DownloadOnly{templateid} onclick="SetDownloadOnly('{templateid}')"><br></div>
+					<div style="display:'{hidedownloadcheckbox}'" id=downloadonlycheckbox>Download&nbsp;only?&nbsp;<input type=checkbox {checkdownload}  name=DownloadOnly{templateid} id=DownloadOnly{templateid} onclick="SetDownloadOnly('{templateid}')"><br></div>
 					{quantity}
 					<!--AttachFile-->
 					{AttachCaption}
