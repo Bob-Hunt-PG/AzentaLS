@@ -818,36 +818,36 @@ function FillCostInfo(strProduct, intArrayIndex)
 
 <!--TABTABLE-->
 <!--TabTableStart-->
-<!-- <form name="Form1" method="Post" onSubmit="return CheckOptions()"> -->
-	<!-- <blockquote class="help" id="masterhelptext">{WHERE}</blockquote> -->
+<form name="Form1" method="Post" onSubmit="return CheckOptions()">
+	<blockquote class="help" id="masterhelptext">{WHERE}</blockquote>
 	<!-- <table class="table" data-toggle="table" data-search="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"> -->
-	<!-- <table class="table" data-toggle="table" data-search="false" data-show-refresh="false" data-show-toggle="false" data-show-columns="false"> -->
-		<!-- <script type="text/javascript" language="javascript">
+	<table class="table" data-toggle="table" data-search="false" data-show-refresh="false" data-show-toggle="false" data-show-columns="false">
+		<script type="text/javascript" language="javascript">
 			hs.registerOverlay({
 			thumbnailId: 'thumbimg{id}',
 			overlayId: 'closebutton{id}',
 			position: 'top right',
 			fade: 2
 			});
-		</script> -->
+		</script>
 		<!--Style-->
 	    <thead>
 	      <tr>
-	        <!-- <th data-field="Thumbnail">Thumbnail</th>
-	        <th data-field="productName" data-sortable="false">Product Name</th>
-	        <th data-field="ProductSelect">Select Product</th> -->
+	        <th data-field="Thumbnail">Thumbnail</th>
+	        <th data-field="productName" data-sortable="true">Product Name</th>
+	        <th data-field="ProductSelect">Select Product</th>
 	      </tr>
 	    </thead>
 	    <tbody>
 	    	<!--TemplateItem-->
 	    	<tr>
 	    		<td>
-	    			<!-- <a href={Thumbnail} class="highslide" onclick='return hs.expand(this, {outlineType: "rounded-white", wrapperClassName: "highslide-white"})'><img id=thumbimg{id} src={Thumbnail} alt="{ThumbnailAlt}" width="85" title="Click to enlarge"></a>
+	    			<a href={Thumbnail} class="highslide" onclick='return hs.expand(this, {outlineType: "rounded-white", wrapperClassName: "highslide-white"})'><img id=thumbimg{id} src={Thumbnail} alt="{ThumbnailAlt}" width="85" title="Click to enlarge"></a>
 					<div id="closebutton{id}" class="highslide-overlay closebutton"	onclick="return hs.close(this)" title="Close"></div>
-					<span id="templatecost{id}"></span> -->
+					<span id="templatecost{id}"></span>
 	    		</td>
 	    		<td><b>{TemplateName}</b><!--ExTRAS--></td>
-	    		<!-- <td><input class="btn btn-primary" type="button" onClick="javascript:window.location='{location}'" value="{SelectButtonCaption}"></td> -->
+	    		<td><input class="btn btn-primary" type="button" onClick="javascript:window.location='{location}'" value="{SelectButtonCaption}"></td>
 	    	</tr>
 	    	<!--/TemplateItem-->
 	    	
@@ -882,9 +882,9 @@ function FillCostInfo(strProduct, intArrayIndex)
 					</div>
 				</td>
 				<td>
-					<!-- <script language="javascript" type="text/javascript">
+					<script language="javascript" type="text/javascript">
 						hs.registerOverlay({thumbnailId: 'thumbimg{templateid}', overlayId: 'closebutton{templateid}', position: 'top right', fade: 2});
-					</script> -->
+					</script>
 					<a href={thumb} class="highslide" onclick='return hs.expand(this)'><img id="thumbimg{templateid}" src={thumb}></a>
 					<div id='closebutton{templateid}' class='highslide-overlay closebutton' onclick='return hs.close(this)' title='Close'></div>
 					<span id="templatecost{templateid}" class="clscost" {hidecost}></span>
@@ -894,7 +894,7 @@ function FillCostInfo(strProduct, intArrayIndex)
 					<input type="hidden" name="ProductName{templateid}" value="{templatename}">
 				</td>
 				<td>
-					<div style="display:'{hidedownloadcheckbox}'" id=downloadonlycheckbox>Download&nbsp;only?&nbsp;<input type=checkbox {checkdownload}  name=DownloadOnly{templateid} id=DownloadOnly{templateid} onclick="SetDownloadOnly('{templateid}')"><br></div>
+					<div style="display:{hidedownloadcheckbox}" id=downloadonlycheckbox>Download&nbsp;only?&nbsp;<input type=checkbox {checkdownload}  name=DownloadOnly{templateid} id=DownloadOnly{templateid} onclick="SetDownloadOnly('{templateid}')"><br></div>
 					{quantity}
 					<!--AttachFile-->
 					{AttachCaption}
