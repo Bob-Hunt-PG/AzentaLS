@@ -541,6 +541,20 @@ $(function() {
 		$('select[name="screendef"] option:contains("Azenta Life Sciences")').prop('selected', true);
 		$('input[name="DefaultDetails"]').prop('checked', true);
 	}
+
+	// Azenta Trade Show Display Products: Add message 'All Trade Show items to be returned after use.'
+	// https://azenta.mybrandstorefront.com/ProductCats.asp?cid=638&itemname=Trade+Show
+	if (window.location.href.indexOf("ProductCats.asp") > -1) {
+		if (window.location.href.indexOf("638") > -1) {
+			let mstrhelp = document.getElementById('masterhelptext');
+			let tradeShow = mstrhelp.innerHTML;
+			let msgDiv = document.createElement('div');
+			msgDiv.setAttribute("class", "msgDiv");
+			msgDiv.textContent = "All Trade Show items to be returned after use.";
+			mstrhelp.appendChild(msgDiv);
+		}
+	}
+
 });
 
 function colorSelect(color) {
@@ -746,3 +760,5 @@ function calculateQuantity(size) {
 function closeAlert() {
 	$('#alertYN').attr('class', '');
 }
+
+
