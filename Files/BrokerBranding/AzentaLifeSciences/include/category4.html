@@ -3,6 +3,8 @@
 <script type="text/javascript" src="Include/highslide.js"></script>
 <script type="text/javascript" src="Include/highslide.cfg.js"></script>
 <script type="text/javascript" src="include/localizeformat.js"></script>	
+
+
 <style type="text/css">
 	TD.class1{BACKGROUND-COLOR: #EFEFEF;}
 	TD.class2{BACKGROUND-COLOR: #fef8d6;}
@@ -787,29 +789,7 @@
 	function functionOnLoad(){
 		return SetupBoxes();
 	}
-
-	// Azenta Trade Show Display Products: Add message 'All Trade Show items to be returned after use.'
-	// https://azenta.mybrandstorefront.com/ProductCats.asp?cid=638&itemname=Trade+Show
-	console.log("starting Bob's script");
-	console.log(window.location.href);
-	if (window.location.href.indexOf("ProductCats.asp") > -1) {
-		console.log("First IF statement");
-		if (window.location.href.indexOf("638") > -1) {
-			console.log("Second IF statement");
-			let mstrhelp = document.getElementById('masterhelptext');
-			console.log("mstrhelp:",document.getElementById('masterhelptext'));
-			let tradeShow = mstrhelp.innerHTML;
-			console.log(`tradeShow: ${tradeShow}`);
-			let msgDiv = document.createElement('div');
-			msgDiv.setAttribute("class", "msgDiv");
-			msgDiv.textContent = "All Trade Show items to be returned after use.";
-			console.log(`msgDiv: ${msgDiv}`);
-			mstrhelp.appendChild(msgDiv);
-		}
-	}
-
 </script>
-
 
 <div style="visibility: hidden; position: absolute; filter:alpha(opacity=85); -moz-opacity:0.85; opacity: 0.85; z-index: 1; top: 5px; left: 5px; width:200px;" id="help_popup"> 
 	<iframe id="frTest" style="z-index:-1;width:200px;height:200;position:absolute;top:0;left:0;display:inline;" frameborder="0" scrolling="no" marginwidth="0" src="" marginheight="0"></iframe>
@@ -819,7 +799,7 @@
 	</table>
 </div>
 <!--DynamicCostCentres-->
-<!-- <form name="frmCCs" method="Post">
+<form name="frmCCs" method="Post">
 	<table width="100%" class="bordertable">
 		<tr>
 			<td class="bordertableheader" colspan="3">{CostCentreCaption}</td>
@@ -832,15 +812,17 @@
 		</tr>
 	</table>
 	<br/>
-</form> -->
+</form>
 <!--/DynamicCostCentres-->
 
 <!--TABTABLE-->
 <!--TabTableStart-->
 <form name="Form1" method="Post" onSubmit="return CheckOptions()">
 	<blockquote class="help" id="masterhelptext">{WHERE}</blockquote>
-	<!-- <table class="table" data-toggle="table" data-search="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"> -->
-	<table class="table" data-toggle="table" data-search="false" data-show-refresh="false" data-show-toggle="false" data-show-columns="false">
+	<div class="msgDiv"></div>
+	<!-- Turns on/off search/refresh/sort for the Business Cards and Merchandise Pages -->
+	<table class="table" data-toggle="table" data-search="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true">
+	<!-- <table class="table" data-toggle="table" data-search="false" data-show-refresh="false" data-show-toggle="false" data-show-columns="false"> -->
 		<script type="text/javascript" language="javascript">
 			hs.registerOverlay({
 			thumbnailId: 'thumbimg{id}',
@@ -878,8 +860,8 @@
 	<input type="submit" name="btnCartContinue" id="btnCartContinue" value="{AddToCartButtonCaption}">
 	<input type="submit" name="btnCart" id="btnCart" value="{AddToCartCheckoutButtonCaption}">
 	<!--/ADDCART-->
-	<!-- <table class="table" data-toggle="table" data-search="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-sort-name="{ProductCaption}"> -->
-    <table class="table" data-toggle="table" data-search="false" data-show-refresh="false" data-show-toggle="false" data-show-columns="false" data-sort-name="{ProductCaption}">
+	<table class="table" data-toggle="table" data-search="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-sort-name="{ProductCaption}">
+    <!-- <table class="table" data-toggle="table" data-search="false" data-show-refresh="false" data-show-toggle="false" data-show-columns="false" data-sort-name="{ProductCaption}"> -->
 	    <thead>
 	    	<tr>
 	    		<th data-field="Empty">&nbsp;</th>
@@ -973,3 +955,4 @@
 </form>
 <!--TabTableEnd-->
 <!--/TABTABLE-->
+
