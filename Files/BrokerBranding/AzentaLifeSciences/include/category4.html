@@ -558,7 +558,7 @@
 		s = minus + s;
 		return s;
 	}
-	
+
 	function SetupBoxes()
 	{
 		var aryArraysCur;
@@ -790,13 +790,20 @@
 
 	// Azenta Trade Show Display Products: Add message 'All Trade Show items to be returned after use.'
 	// https://azenta.mybrandstorefront.com/ProductCats.asp?cid=638&itemname=Trade+Show
+	console.log("starting Bob's script");
+	console.log(window.location.href);
 	if (window.location.href.indexOf("ProductCats.asp") > -1) {
+		console.log("First IF statement");
 		if (window.location.href.indexOf("638") > -1) {
+			console.log("Second IF statement");
 			let mstrhelp = document.getElementById('masterhelptext');
+			console.log("mstrhelp:",document.getElementById('masterhelptext'));
 			let tradeShow = mstrhelp.innerHTML;
+			console.log(`tradeShow: ${tradeShow}`);
 			let msgDiv = document.createElement('div');
 			msgDiv.setAttribute("class", "msgDiv");
 			msgDiv.textContent = "All Trade Show items to be returned after use.";
+			console.log(`msgDiv: ${msgDiv}`);
 			mstrhelp.appendChild(msgDiv);
 		}
 	}
