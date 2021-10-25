@@ -11,7 +11,7 @@
 		<link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Raleway:300,400,700,900">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 		<link rel="stylesheet" type="text/css" href="Include/styles.css">
-		<title>Brooks Life Sciences</title>
+		<title>Azenta Life Sciences</title>
 	</head>
 	<body>
 	<!-- <div class="alert" style="position: fixed; margin: 0 auto; bottom: 0; left: 0; right: 0; padding: 0.5rem 0.75rem; z-index: 999999; background: #e4e4e4; font-size: 1.25rem;">
@@ -25,14 +25,14 @@
 							<ul class="">
 								<!--LoggedIn-->
 								<li><a href="/registration.asp">Account</a> |</li>
-								<li><a href="/registration.asp" id="feedback">Give us your feedback</a></li>
+								<!-- <li><a href="/registration.asp" id="feedback">Give us your feedback</a></li> -->
 								<!--/LoggedIn-->
 							</ul>
 							<ul class="pull-right">
 								<li><a href="tel:317-250-0705"><i class="material-icons">phone</i> +(317) 250-0705</a> |</li>
 								<li><a href="mailto:jlaughlin@priority-press.com"><i class="material-icons">mail_outline</i> Support Email</a></li>
 								<!--LoggedIn-->
-								<li> |<a href="/Login.asp?red=//brooks.mybrandstorefront.com">Logout</a></li>
+								<li> |<a href="/Login.asp?red=//azenta.mybrandstorefront.com">Logout</a></li>
 								<!--/LoggedIn-->
 							</ul>
 						</div>
@@ -46,16 +46,16 @@
 					<div class="container">
 						<div class="nav-brand">
 							<a href="/retailsite.asp">
-								<img src="Include/logo.png" alt="Brooks Life Sciences" />
+								<img src="Include/AzentaLogoSmall.jpg" alt="Azenta Logo" />
 							</a>
 						</div>
 						
 						<div class="nav-links">
 							<ul>
-								<li><a href="/retailsite.asp">Home</a></li>
-								<li><a href="/ProductCats.asp?cid=423&itemname=Brooks+Life+Sciences">Products</a></li>
-								<li><a href="/orders.asp">Orders</a></li>
-								<li><a href="/reports.asp">Reports</a></li>
+								<li class="nav-hover"><a href="/retailsite.asp">Home</a></li>
+								<li class="nav-hover"><a href="/ProductCats.asp?cid=635&itemname=Azenta+Life+Sciences">Products</a></li>
+								<li class="nav-hover"><a href="/orders.asp">Orders</a></li>
+								<li class="nav-hover"><a href="/reports.asp">Reports</a></li>
 							</ul>
 							<ul class="pull-right">
 								<li><a href="/cart.asp">Shopping Cart</a></li>
@@ -69,13 +69,13 @@
 		<div class="hero-container">
 			<div class="hero-content">
 				<div class="bg hero v-mid" id="hero1">
-					<div class="hero-left">
+					<!-- <div class="hero-left">
 						<div class="hero-text">
-							<h3>Brooks Life Sciences Storefront</h3>
+							<h3>Azenta Life Sciences Storefront</h3>
 							<p>Allows you to order your corporate stationery with ease; from business cards to corporate apparel, we got you covered.</p>
-							<a class="btn btn-primary" href="/ProductCats.asp?cid=423&itemname=Brooks+Life+Sciences"><i class="fa fa-arrow-right" aria-hidden="true"></i> <span>Order Now</span></a>
+							<a class="btn btn-primary" href="/ProductCats.asp?cid=423&itemname=Azenta+Life+Sciences"><i class="fa fa-arrow-right" aria-hidden="true"></i> <span>Order Now</span></a>
 						</div>
-					</div>
+					</div> -->
 				</div>
 			</div>
 		</div>
@@ -86,53 +86,68 @@
 					<div class="container">
 						<h1><b>Featured</b> Categories</h1>
 						<div class="row">
-							<div class="col-md-3">
-								<a href="/ProductCats.asp?cid=427&itemname=Business+Card">
-									<img src="Include/businesscards.png" alt="Corporate Business Cards" />
-									<h3><b>Corporate Business Cards</b></h3>
-									<p>Business Cards</p>
-								</a>
+							<div class="col-md-4" id="1">
+								<div class="d-flex align-items-end" id="categoryItem1">
+									<a href="/ProductCats.asp?cid=639&itemname=Business+Card">
+										<img src="Include/AzentaBusinessCardsPad.jpg" alt="Corporate Business Cards" />
+										<h3><b>Corporate Business Cards</b></h3>
+										<p>Business Cards</p>
+									</a>
+								</div>
 							</div>
 
-							<div class="col-md-3">
-								<a href="/ProductCats.asp?cid=444&itemname=Envelopes">
-									<img src="Include/stationery.png" alt="Corporate Stationery" />
-									<h3><b>Corporate Stationery</b></h3>
-									<p>Envelopes</p>
-								</a>
+							<div class="col-md-4" id="2">
+								<div class="d-flex align-items-end" id="categoryItem2">
+									<a href="/ProductCats.asp?cid=445&itemname=Envelopes">
+										<img src="Include/AzentaStationery.jpg" alt="Corporate Stationery" />
+										<h3><b>Corporate Stationery</b></h3>
+										<p>Envelopes, Letterhead, Thank You</p>
+									</a>
+								</div>
 							</div>
 
-							<div class="col-md-3">
-								<a href="/ProductCats.asp?cid=424&itemname=Leaflets%2FBrochures">
-									<img src="Include/marketing.png" alt="Corporate Stationery" />
-									<h3><b>Marketing Collateral</b></h3>
-									<p>Leaflets | Brochures</p>
-								</a>
+							<div class="col-md-4" id="3">
+								<div class="d-flex align-items-end" id="categoryItem3">
+									<a href="/ProductCats.asp?cid=456&itemname=Leaflets%2FBrochures">
+										<img src="Include/AzentaMarketingPad.jpg" alt="Marketing Material" />
+										<h3><b>Marketing Collateral</b></h3>
+										<p>Brochures | Catalogs | Sample Kits</p>
+									</a>
+								</div>
 							</div>
 
-							<div class="col-md-3">
-								<a href="/ProductCats.asp?cid=436&itemname=Trade+Show">
-									<img src="Include/tradeshow.png" alt="Trade Show" />
-									<h3><b>Trade Show</b></h3>
-									<p>Banners | Promo Items | Table Clothes</p>
-								</a>
+							<div class="col-md-4" id="4">
+								<div class="d-flex align-items-end" id="categoryItem4">
+									<a href="/ProductCats.asp?cid=638
+									&itemname=Trade+Show">
+										<img src="Include/AzentaTradeShowPad.jpg" alt="Trade Show" />
+										<h3><b>Trade Show</b></h3>
+										<p>Banners | Displays | Table Cloths</p>
+									</a>
+								</div>
 							</div>
+
+							<div class="col-md-4" id="6">
+								<div class="d-flex align-items-end" id="categoryItem6">
+									<a href="/ProductCats.asp?cid=641&itemname=Service+Team">
+										<img src="Include/ServiceTeamCategoryPad.jpg" alt="Service Team" />
+										<h3><b>Service Team Kits</b></h3>
+										<p>Service Team Only</p>
+									</a>
+								</div>
+							</div>
+
 							
-							<div class="col-md-3">
-								<a href="/ProductCats.asp?cid=446&itemname=Brooks+Merchandise">
-									<img src="Include/apparel.png" alt="Brooks Merchandise" />
-									<h3><b>Brooks Merchandise</b></h3>
-									<p>Apparel | +More</p>
-								</a>
+							<div class="col-md-4" id="5">
+								<div class="d-flex align-items-end" id="categoryItem5">
+									<a href="/ProductCats.asp?cid=637&itemname=Azenta+Merchandise">
+										<img src="Include/AzentaMerchPad.jpg" alt="Azenta Merchandise" />
+										<h3><b>Azenta Merchandise</b></h3>
+										<p>Apparel | +More</p>
+									</a>
+								</div>
 							</div>
 
-							<div class="col-md-3">
-								<a href="/ProductCats.asp?cid=585&itemname=Service+Team+Kits">
-									<img src="Include/kits.png" alt="Service Team Kits" />
-									<h3><b>Service Team Kits</b></h3>
-									<p>Permissions Required</p>
-								</a>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -153,20 +168,23 @@
 						</div>
 						
 						<div class="footer-panel">
-							<h2>Brooks Life Sciences</h2>
+							<!-- Temporarily disabled until the storefront guide can be updated to Azenta -->
+							<!-- <h2>Azenta</h2>
 							<ul>
-								<li><a href="/Include/BrooksStorefrontGuide.docx">Storefront Guide</a></li>
-							</ul>
+								<li><a href="/Include/AzentaStorefrontGuide.docx">Storefront Guide</a></li>
+							</ul> -->
 						</div>
 
 						<div class="footer-panel">
 							<h2>Quick Links</h2>
 							<ul>
-								<li><a href="/ProductCats.asp?cid=427&itemname=Business+Card">Business Card</a></li>
-								<li><a href="/ProductCats.asp?cid=423&itemname=Brooks+Life+Sciences">Corporate Stationery</a></li>
+								<li><a href="/ProductCats.asp?cid=639&itemname=Business+Card">Business Card</a></li>
+								<li><a href="/ProductCats.asp?cid=445&itemname=Azenta+Life+Sciences">Corporate Stationery</a></li>
 								<li><a href="/ProductCats.asp?cid=456&itemname=Marketing+Collateral">Marketing Collateral</a></li>
-								<li><a href="/ProductCats.asp?cid=436&itemname=Trade+Show">Trade Show</a></li>
-								<li><a href="/ProductCats.asp?cid=446&itemname=Brooks+Merchandise">Brooks Merchandise</a></li>
+								<li><a href="/ProductCats.asp?cid=638&itemname=Trade+Show">Trade Show</a></li>
+								<li><a href="/ProductCats.asp?cid=637&itemname=Azenta+Merchandise">Azenta Merchandise</a></li>
+								<li><a href="/ProductCats.asp?cid=641&itemname=Azenta+Service+Team">Azenta Service Team</a></li>
+
 							</ul>
 						</div>
 						
@@ -176,12 +194,13 @@
 								<li>4026 W. 10th Street, Indianapolis, IN 46222</li>
 								<li>+(317) 250-0705</li>
 								<li>jlaughlin@priority-press.com</li>
+								<li><a href="https://www.priority-press.com/privacy-policy/" target="_blank" >Privacy Policy</a></li>
 							</ul>
 						</div>
 					</div>
 				</div>
 				<div class="container">
-					<p class="copyright">Priority Press Inc. &copy; 2018. All Rights Reserved.</p>
+					<p class="copyright">Priority Press Inc. &copy; 2021. All Rights Reserved.</p>
 				</div>
 			</div>
 		</div>

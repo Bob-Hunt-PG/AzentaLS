@@ -3,9 +3,11 @@
 <script type="text/javascript" src="Include/highslide.js"></script>
 <script type="text/javascript" src="Include/highslide.cfg.js"></script>
 <script type="text/javascript" src="include/localizeformat.js"></script>	
+
+
 <style type="text/css">
-	TD.class1{BACKGROUND-COLOR: #EFEFEF;}
-	TD.class2{BACKGROUND-COLOR: #fef8d6;}
+	TD.class1{BACKGROUND-COLOR: #ffffff;}
+	TD.class2{BACKGROUND-COLOR: #ffffff;}
 	.subcaption, .clscost
 	{
 		COLOR: #000000;
@@ -38,8 +40,8 @@
 	.highslide-image {
 		border-bottom: 1px solid white;
 	}
-	.highslide-image-blur {
-	}
+	/* .highslide-image-blur {
+	} */
 	.highslide-caption {
 		display: none;
 		border-bottom: 1px solid white;
@@ -153,8 +155,10 @@
 		left: 0.5em;
 	}
 
-	.highslide-wrapper .highslide-body {
-	}
+	/* .highslide-wrapper .highslide-body {
+
+	} */
+
 </style>
 <script language="JavaScript" type="text/javascript">
 	<!--ProductIds-->
@@ -250,7 +254,7 @@
 
 	function CheckExtraFields(ProductId)
 	{
-		<!--CheckProductFields-->
+		// <!--CheckProductFields-->
 		return true;
 	}
 
@@ -445,92 +449,89 @@
 	}
 
 	
-function FillCostInfo(strProduct, intArrayIndex)
-	{
-	var aryCosting = eval('aryProductCost'+strProduct);
-	var aryUrgentCosting = eval('aryProductUrgentCost'+strProduct);
-	var aryUnits = [];
-	var aryCost = [];
-	var aryQty = [];
-	var i;
-	var j;
-	var k;
-	var l;
-	var intCurrentSelection;
-	var cboCurrent = document.getElementById('qty' + strProduct);
-	var checkUrgent = document.getElementById('urgent' + strProduct);
-	var intQtyPerUnit = eval('intQtyPerUnit' + strProduct);
-	var intTotalQty;
+	function FillCostInfo(strProduct, intArrayIndex){
+		var aryCosting = eval('aryProductCost'+strProduct);
+		var aryUrgentCosting = eval('aryProductUrgentCost'+strProduct);
+		var aryUnits = [];
+		var aryCost = [];
+		var aryQty = [];
+		var i;
+		var j;
+		var k;
+		var l;
+		var intCurrentSelection;
+		var cboCurrent = document.getElementById('qty' + strProduct);
+		var checkUrgent = document.getElementById('urgent' + strProduct);
+		var intQtyPerUnit = eval('intQtyPerUnit' + strProduct);
+		var intTotalQty;
 
-	intCurrentSelection = cboCurrent.selectedIndex;
+		intCurrentSelection = cboCurrent.selectedIndex;
 
-	if(cboCurrent[1].value != '0')
-	{
-		for (i=0; i<cboCurrent.length; i=i+1)
-			{
-				intTotalQty = cboCurrent[i].value * intQtyPerUnit;
-				for (l=0; l<aryCosting.length; l=l+2)
-				if (aryCosting[l]==cboCurrent[i].value)
+		if(cboCurrent[1].value != '0'){
+			for (i=0; i<cboCurrent.length; i=i+1)
 				{
-				lngCurrentCost = aryCosting[l+1];
-				if (checkUrgent) if ((checkUrgent).checked) lngCurrentCost=lngCurrentCost+aryUrgentCosting[l+1]
-				if (intArrayIndex > 0)
+					intTotalQty = cboCurrent[i].value * intQtyPerUnit;
+					for (l=0; l<aryCosting.length; l=l+2)
+					if (aryCosting[l]==cboCurrent[i].value)
 					{
-						var aryCur = eval('aryBoxValues' + intArrayIndex)
-						var aryCur2;
-						for (k=0; k<aryCur.length; k++)
+					lngCurrentCost = aryCosting[l+1];
+					if (checkUrgent) if ((checkUrgent).checked) lngCurrentCost=lngCurrentCost+aryUrgentCosting[l+1]
+					if (intArrayIndex > 0)
 						{
-							if (aryCur[k] != '')
+							var aryCur = eval('aryBoxValues' + intArrayIndex)
+							var aryCur2;
+							for (k=0; k<aryCur.length; k++)
 							{
-								aryCur2 = eval(eval('aryArrays' + intArrayIndex)[k]);
-								for (var j=0; j<aryCur2.length; j++)
+								if (aryCur[k] != '')
 								{
-									if ( (aryCur2[j][0] == aryCur[k]) || ( (document.getElementById(eval('aryBoxes'+intArrayIndex)[k]).type == 'text')  ) || ( (document.getElementById(eval('aryBoxes'+intArrayIndex)[k]).type == 'textarea') ) || ( (document.getElementById(eval('aryBoxes'+intArrayIndex)[k]).type == 'checkbox') && (document.getElementById(eval('aryBoxes'+intArrayIndex)[k]).checked == true) ) )
+									aryCur2 = eval(eval('aryArrays' + intArrayIndex)[k]);
+									for (var j=0; j<aryCur2.length; j++)
 									{
-										switch(aryCur2[j][6])
+										if ( (aryCur2[j][0] == aryCur[k]) || ( (document.getElementById(eval('aryBoxes'+intArrayIndex)[k]).type == 'text')  ) || ( (document.getElementById(eval('aryBoxes'+intArrayIndex)[k]).type == 'textarea') ) || ( (document.getElementById(eval('aryBoxes'+intArrayIndex)[k]).type == 'checkbox') && (document.getElementById(eval('aryBoxes'+intArrayIndex)[k]).checked == true) ) )
 										{
-											case 'total':
-											lngCurrentCost = lngCurrentCost + (parseFloat(aryCur2[j][5]) * intTotalQty);
+											switch(aryCur2[j][6])
+											{
+												case 'total':
+												lngCurrentCost = lngCurrentCost + (parseFloat(aryCur2[j][5]) * intTotalQty);
+												break;
+												case 'units':
+												lngCurrentCost = lngCurrentCost + (parseFloat(aryCur2[j][5]) * cboCurrent[i].value);
+												break;
+												default:
+												lngCurrentCost = lngCurrentCost + parseFloat(aryCur2[j][5]);
+											}
 											break;
-											case 'units':
-											lngCurrentCost = lngCurrentCost + (parseFloat(aryCur2[j][5]) * cboCurrent[i].value);
-											break;
-											default:
-											lngCurrentCost = lngCurrentCost + parseFloat(aryCur2[j][5]);
 										}
-										break;
 									}
 								}
 							}
 						}
+					aryCost.push(lngCurrentCost);
+					aryQty.push(intTotalQty);
+					aryUnits.push(aryCosting[l]);
 					}
-				aryCost.push(lngCurrentCost);
-				aryQty.push(intTotalQty);
-				aryUnits.push(aryCosting[l]);
 				}
+			} else {
+				//No Stock - Do nothing for now;
 			}
-		} else {
-			//No Stock - Do nothing for now;
-		}
 
-	if (aryCost.length > 0)
-	{
-		var select = document.getElementById('qty'+strProduct);
-		select.innerHTML = '';
-		var el = document.createElement("option");
-			el.textContent = '';
-			el.value = '';
-			select.appendChild(el);
-		for (i=0; i<aryCost.length; i=i+1)
-		{
+		if (aryCost.length > 0){
+			var select = document.getElementById('qty'+strProduct);
+			select.innerHTML = '';
 			var el = document.createElement("option");
-			el.textContent = aryQty[i]
-			if (aryCost[i] != 0) el.textContent = el.textContent + ' - ({CurrencySymbol}' +localizeNumber(CurrencyFormatted(aryCost[i])) + ')';
-			el.value = aryUnits[i];
-			select.appendChild(el);
+				el.textContent = '';
+				el.value = '';
+				select.appendChild(el);
+			for (i=0; i<aryCost.length; i=i+1)
+			{
+				var el = document.createElement("option");
+				el.textContent = aryQty[i]
+				if (aryCost[i] != 0) el.textContent = el.textContent + ' - ({CurrencySymbol}' +localizeNumber(CurrencyFormatted(aryCost[i])) + ')';
+				el.value = aryUnits[i];
+				select.appendChild(el);
+			}
 		}
-	}
-	cboCurrent.selectedIndex = intCurrentSelection;
+		cboCurrent.selectedIndex = intCurrentSelection;
 	}
 	
 	function CheckMe(strProduct)
@@ -559,6 +560,7 @@ function FillCostInfo(strProduct, intArrayIndex)
 		s = minus + s;
 		return s;
 	}
+
 	function SetupBoxes()
 	{
 		var aryArraysCur;
@@ -787,8 +789,9 @@ function FillCostInfo(strProduct, intArrayIndex)
 	function functionOnLoad(){
 		return SetupBoxes();
 	}
-</script>
 
+	
+</script>
 
 <div style="visibility: hidden; position: absolute; filter:alpha(opacity=85); -moz-opacity:0.85; opacity: 0.85; z-index: 1; top: 5px; left: 5px; width:200px;" id="help_popup"> 
 	<iframe id="frTest" style="z-index:-1;width:200px;height:200;position:absolute;top:0;left:0;display:inline;" frameborder="0" scrolling="no" marginwidth="0" src="" marginheight="0"></iframe>
@@ -818,7 +821,10 @@ function FillCostInfo(strProduct, intArrayIndex)
 <!--TabTableStart-->
 <form name="Form1" method="Post" onSubmit="return CheckOptions()">
 	<blockquote class="help" id="masterhelptext">{WHERE}</blockquote>
-	<table class="table" data-toggle="table" data-search="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true">
+	<div class="msgDiv"></div>
+	<!-- Turns on/off search/refresh/sort for the Business Cards and Merchandise Pages -->
+	<!-- <table class="table" data-toggle="table" data-search="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true"> -->
+	<table class="table" data-toggle="table" data-search="false" data-show-refresh="false" data-show-toggle="false" data-show-columns="false">
 		<script type="text/javascript" language="javascript">
 			hs.registerOverlay({
 			thumbnailId: 'thumbimg{id}',
@@ -856,7 +862,8 @@ function FillCostInfo(strProduct, intArrayIndex)
 	<input type="submit" name="btnCartContinue" id="btnCartContinue" value="{AddToCartButtonCaption}">
 	<input type="submit" name="btnCart" id="btnCart" value="{AddToCartCheckoutButtonCaption}">
 	<!--/ADDCART-->
-    <table class="table" data-toggle="table" data-search="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-sort-name="{ProductCaption}">
+	<table class="table" data-toggle="table" data-search="true" data-show-refresh="true" data-show-toggle="true" data-show-columns="true" data-sort-name="{ProductCaption}">
+    <!-- <table class="table" data-toggle="table" data-search="false" data-show-refresh="false" data-show-toggle="false" data-show-columns="false" data-sort-name="{ProductCaption}"> -->
 	    <thead>
 	    	<tr>
 	    		<th data-field="Empty">&nbsp;</th>
@@ -890,6 +897,7 @@ function FillCostInfo(strProduct, intArrayIndex)
 					<input type="hidden" name="ProductName{templateid}" value="{templatename}">
 				</td>
 				<td>
+					<!-- ***DO NOT FIX TYPO on next line. Fixing causes problems on live storefront Merchandise page. -->
 					<div style="display:{hidedownloadcheckbox}" id=downloadonlycheckbox>Download&nbsp;only?&nbsp;<input type=checkbox {checkdownload}  name=DownloadOnly{templateid} id=DownloadOnly{templateid} onclick="SetDownloadOnly('{templateid}')"><br></div>
 					{quantity}
 					<!--AttachFile-->
@@ -949,3 +957,4 @@ function FillCostInfo(strProduct, intArrayIndex)
 </form>
 <!--TabTableEnd-->
 <!--/TABTABLE-->
+

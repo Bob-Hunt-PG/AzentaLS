@@ -1,0 +1,604 @@
+<script type="text/javascript" src="Include/highslide.js"></script>
+<script type="text/javascript" src="Include/highslide.cfg.js"></script>
+
+<!--CKeditor-->
+<script type='text/javascript' src='Include/ckeditor/ckeditor.js?4'></script>
+<!--/CKeditor-->
+
+<!--redactor-->
+<script src="JSCheck/Include.js" type="text/javascript" language="javascript1.1"></script>
+<SCRIPT SRC="include/validation.js" ID=clientEventHandlersJS LANGUAGE=javascript></SCRIPT>
+<script src="include/ajax.js"></script>
+<script type="text/javascript" language="javascript">
+
+	function showSave(blnShow)
+	{
+		var strDisplay='none';
+
+		if (document.getElementById('chkSave'))
+		{
+			if (document.getElementById('chkSave').checked)strDisplay='';
+			document.getElementById('spnSave').style.display=strDisplay;			
+		}
+	}
+        
+    function functionOnLoad(){
+	    var blnValidateLoad;
+		showSave(false);
+		loadSelectImages();
+		blnValidateLoad = validateLoad();
+		if (document.getElementById('btnPreview') != undefined) RefreshProof();
+		return blnValidateLoad;
+	}
+
+	function validateField(curInput)
+	{
+	  <!--validateField-->
+	  <!--visibleField-->
+	}
+	
+	function loadSelectImages(){
+		var strFieldName = "";
+		var intCount = 1;
+		var intPos; 
+		var intCurrentFieldId;
+		var intPreviousFieldId;
+		var elem = document.getElementById("Form1").elements;
+		for(var i = 0; i < elem.length; i++){
+			strFieldName = "" + elem[i].name + "";
+			intPos=strFieldName.indexOf('pdfs_id');
+			if (intPos > -1)
+			{
+				intCurrentFieldId = strFieldName.substring(intPos+7, strFieldName.length);
+			}
+			if (intCurrentFieldId != intPreviousFieldId){
+				if(elem[i].value != '' && elem[i].type != "hidden"){
+					ShowThumb(elem[i], intCount);
+				}
+				intCount++;
+				intPreviousFieldId = intCurrentFieldId;
+			}
+		}
+	}
+
+	function validateForm()
+	{
+		var blnOverwrite = false;
+		var blnOWOK = false
+	<!--validateSubmit-->
+	<!--validateForm-->
+		if (document.getElementById('chkSave'))
+		{
+			if (document.getElementById('chkSave').checked)
+			{
+				
+				if(document.getElementById('chkSave').checked) 
+				{
+
+					if(document.getElementById('rdoSaveOver'))
+					{
+						if (document.getElementById('rdoSaveOver').checked)
+						{
+							blnOverwrite = true;
+							if (document.getElementById('cboSaveOver').value != '')blnOWOK = true;
+						}
+					}
+					if (blnOverwrite)
+					{
+						if (blnOWOK)
+						{
+							return true;
+						}
+						else
+						{
+							alert('Please select a previously saved item to overwrite. Otherwise, choose the \'Save As\' option above and enter a new name');
+							return false;
+						}
+					}
+					else
+					{
+						if (document.getElementById('txtSaveAs').value =='')
+						{
+							alert('Please enter a name to save your template\'s data as');
+							return false;
+						}
+					}
+				}
+			}
+		}
+		return true;
+	}
+
+	function hasValue(strName)
+	{
+	<!--hasvalue-->
+		return true;
+	}
+
+	function validateLoad()
+	{
+	<!--validateLoad-->
+		return true;
+	}
+
+	function ShowThumb(cboxCur, intIndex)
+	{
+	<!--ImageJava-->
+	}
+	function SpellWindow(strFieldName){
+	  var oSpell = new JavaScriptSpellCheck();
+	  oSpell.spellCheckWindow(strFieldName);
+	}
+
+	function limitText(limitField, limitNum) {
+		if (limitField.value.length > limitNum) {
+			limitField.value = limitField.value.substring(0, limitNum);
+			document.getElementById(limitField.id + "MaxChars").innerHTML = '<br>{JSMaxCharsCaption}';
+		
+		}
+			else{
+					document.getElementById(limitField.id + "MaxChars").innerHTML = "";
+			}
+	}
+
+	function PartialEscape (strInput)
+	{	var strTemp;
+		strTemp = strInput.replace(/%/g,'%25'); 
+		strTemp = strTemp.replace(/(\r\n|[\r\n])/g,'%0D%0A'); //Escape carrage returns - line feeds 
+		strTemp = strTemp.replace(/&/g,'%26');  
+		strTemp = strTemp.replace(/\+/g,'%2B');  
+		strTemp = strTemp.replace(/ /g,'%20');  
+		return strTemp;
+	}
+
+	function RefreshProof() 
+	{
+		 var strURL = '';
+		 for(var i=0; i < document.getElementById('Form1').elements.length; i++)
+		  {
+		  if (i != 0) strURL += '&';
+		  if (document.getElementById('Form1').elements[i].name!='chkSave') strURL += document.getElementById('Form1').elements[i].name + '=' + PartialEscape(document.getElementById('Form1').elements[i].value);
+		  }
+		document.getElementById("spnLiveProof").innerHTML="<img src='images/process.gif' width=20>";
+		document.getElementById("btnPreview").style.display='none';
+		if(!AjaxPost("ShowProofAJAX.asp?type=refreshproof",stateChanged,strURL,false ))
+		{
+			document.getElementById("spnLiveProof").innerHTML = "Browser doesn't support AJAX";
+		}
+		else
+		{
+			document.getElementById("spnLiveProof").innerHTML='';
+			document.getElementById("btnPreview").style.display='';
+		}  
+		getProofs(xmlHttp.responseText)
+		if (document.PreviewHsRegistration != undefined) PreviewHsRegistration();
+
+	}
+	
+	function getProofs(strText)
+	{
+		var aryProofs = strText.split('<!--split-->');
+		if (document.getElementById('spnPDFProof'))document.getElementById('spnPDFProof').innerHTML = aryProofs[0];
+		
+		if ((document.getElementById('spnFrontProof')) && (aryProofs.length > 1))document.getElementById('spnFrontProof').innerHTML = aryProofs[1];
+		if ((document.getElementById('spnBackProof')) && (aryProofs.length > 2))document.getElementById('spnBackProof').innerHTML = aryProofs[2];
+	}
+	
+	
+	function stateChanged() {};
+
+	function openWin(strURL)
+	{
+		var winCurrent
+		winCurrent = window.open(strURL, "", "width=600,height=400,toolbar=0,status=0,location=0,menubar=0,scrollbars=0,resizable=1");
+		winCurrent.focus(); 
+	}
+</script>
+<!--headerson-->
+  <STYLE>
+   body {padding:0px;background-image:url(images/spacer.gif);background-color:#ffffff}
+   .bodyWrap{margin:5px}
+  </STYLE>
+<!--/headerson-->
+<style type="text/css">
+
+.highslide-html-content
+{
+    DISPLAY: none;
+    POSITION: absolute
+}
+.controlbar5
+{
+    BACKGROUND: url(highslidegraphics/controlbar5.gif);
+    FLOAT: right;
+    WIDTH: 83px;
+    HEIGHT: 18px
+}
+.controlbar5 A
+{
+    DISPLAY: block;
+    FLOAT: left;
+    HEIGHT: 18px
+}
+.controlbar5 A:hover
+{
+    BACKGROUND-IMAGE: url(highslidegraphics/controlbar5-hover.gif)
+}
+.controlbar5 .previous
+{
+    WIDTH: 20px
+}
+.controlbar5 .next
+{
+    BACKGROUND-POSITION: -20px 0px;
+    WIDTH: 20px
+}
+.controlbar5 .highslide-move
+{
+    BACKGROUND-POSITION: -40px 0px;
+    WIDTH: 20px
+}
+.controlbar5 .close
+{
+    BACKGROUND-POSITION: -60px 0px;
+    WIDTH: 20px
+}
+
+
+.highslide-loading
+{
+    BORDER-RIGHT: black 1px solid;
+    PADDING-RIGHT: 2px;
+    BACKGROUND-POSITION: 3px 1px;
+    BORDER-TOP: black 1px solid;
+    DISPLAY: block;
+    PADDING-LEFT: 22px;
+    FONT-WEIGHT: bold;
+    FONT-SIZE: 8pt;
+    BACKGROUND-IMAGE: url(highslidegraphics/loader.white.gif);
+    PADDING-BOTTOM: 2px;
+    BORDER-LEFT: black 1px solid;
+    COLOR: black;
+    PADDING-TOP: 2px;
+    BORDER-BOTTOM: black 1px solid;
+    BACKGROUND-REPEAT: no-repeat;
+    FONT-FAMILY: sans-serif;
+    BACKGROUND-COLOR: white;
+    TEXT-DECORATION: none
+}
+
+
+.highslide-html
+{
+    BORDER-RIGHT: white 1px solid;
+    BORDER-TOP: white 1px solid;
+    BORDER-LEFT: white 1px solid;
+    BORDER-BOTTOM: white 1px solid;
+    BACKGROUND-COLOR: white
+}
+
+.highslide-wrapper .highslide-header UL
+{
+    PADDING-LEFT: 0px; PADDING-RIGHT: 0px; PADDING-TOP: 0px; PADDING-BOTTOM: 0px; MARGIN: 0px; TEXT-ALIGN: right
+}
+
+.highslide-wrapper .highslide-header UL LI {DISPLAY: inline; PADDING-LEFT: 1em}
+.highslide-wrapper .highslide-header UL LI.highslide-previous {DISPLAY: none}
+.highslide-wrapper .highslide-header UL LI.highslide-next {DISPLAY: none}
+
+.highslide-wrapper .highslide-header A
+{
+    FONT-WEIGHT: bold;
+    TEXT-TRANSFORM: uppercase;
+    COLOR: gray;
+    TEXT-DECORATION: none
+}
+.highslide-wrapper .highslide-header .highslide-move A {CURSOR: move}
+
+</style>
+
+	<script src="jswrapper.asp?file=enterdetailsval&screen=Image Library" id="clientEventHandlersJS" language="javascript"></script>
+	<h1>{Name}</h1>
+	<!--SavedTemplateData-->
+	<form name="frmPrevSaved" method="post">
+		<table class="table savedtemplate">
+			<tbody>
+				<tr>
+					<td>
+						<input type=hidden name="oid" id="oid" value="{order}">
+						<b>{PreviouslySavedCaption}</b> 
+						<select onchange="if (this.value != '')submit()" name="cboSavedData" id="cboSavedData">
+							<option value="">{OptionPleaseSelectCaption}</option>
+							{PreviousSavedOptions}
+						</select>
+					</td>
+				</tr>
+			</tbody>
+		</table> 
+	</form>
+	<!--/SavedTemplateData-->
+
+	<form  class="templatedetails" name="Form1" id="Form1" action="Step3New.asp{params}" method="post" onSubmit="return validateForm()">
+	<input type=hidden name="hidreturnto" id="hidreturnto" value="{returnto}">
+	<input type=hidden name="webportalid" id="webportalid" value="{webportalid}">
+	<!--TabTableStart-->
+	<input type=hidden class=textboxtext Name=pid size="5" value="{pid}">
+	<table class="table details">
+		
+		<tr>
+			<td colspan="2">
+				<!--ProofTop-->
+				<table class="table">
+					<!--LiveProof-->
+					<tr>
+						<td>
+							<span id="spnLiveProof"></span>
+							<input class="btn btn-primary" type="button" value="{ButtonRefreshCaption}" name="btnPreview" id="btnPreview" onClick="return refresh();">
+						</td>
+					</tr>
+					<!--/LiveProof-->
+					<!--LiveProof-->
+					<tr>
+						<td><span id="spnPDFProof"></span></td>
+					</tr>
+					<!--/LiveProof-->
+					<tr>
+						<td>
+							<span id="spnFrontProof">
+								<!--FrontThumb-->{FrontThumb}<br>{FrontTemplateName}<!--/FrontThumb-->
+							</span>
+						</td>
+						<td>
+							<span id="spnBackProof">
+								<!--BackThumb-->{BackThumb}<br>{BackTemplateName}<!--/BackThumb-->
+							</span>
+						</td>
+					</tr>
+				</table>
+				<!--/ProofTop-->
+			</td>
+		</tr>
+		<!--HelpText-->
+		<tr>
+			<td colspan="2"><blockquote>{HelpText}</blockquote></td>
+		</tr>
+		<!--/HelpText-->
+	</table>
+
+	<div class="container">
+		<div class="row">
+			<div class="col-sm-6 product-side">
+				<div class="product-image">
+					<!--ProofRight-->
+					<div class="row">
+						<!--LiveProof-->
+						<span id="spnPDFProof"></span>
+						<br>
+						<!--/LiveProof-->
+						<div class="col-xs-12 image">
+							<span id="spnFrontProof">
+								<!--FrontThumb-->{FrontThumb}<br>{FrontTemplateName}<br><!--/FrontThumb-->
+							</span>
+							<!--LiveProof-->
+							<span id="spnLiveProof"></span>
+							<button class="btn btn-primary hide" type="button" name="btnPreview" id="btnPreview" onClick="return refresh();">
+								<i class="material-icons">refresh</i>
+							</button>
+							<!--/LiveProof-->
+						</div>
+						<span id="spnBackProof">
+							<!--BackThumb-->{BackThumb}<br>{BackTemplateName}<br><!--/BackThumb-->
+						</span>
+					</div>
+					<!--/ProofRight-->
+
+					<div class="product-pricing">
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Size</th>
+									<th>Price</th>
+									<th class="col-xs-2">Quantity</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+
+						<!-- <div class="disclaimer">
+							<p class="small">* Orders for 12 or less pieces of this style will incur an Embroidery Small Run Fee of $49.00.</p>
+							<p class="small">* Total Quantity Limit: 95 pieces. If you require more than 95 pieces of this style, please call us at: +855.955.PROMO</p>
+						</div> -->
+						<div class="comments">
+							<label for="comment">Comments</label>
+							<textarea id="comment" class="comment" rows="5" placeholder="Write comments here..."></textarea>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="col-sm-6 product-side product-side-left">
+				<div class="product-options">
+					<div class="front-back-details">
+						<div class="product-description">
+							<div class="descriptions">
+								<div class="description">
+									<h4><b>Product Description</b></h4>
+									<h5><b><span id="SelectOneOption{frontback}" class="front-back-title">{Name}</span></b></h5>
+
+									<div class="colors">
+										<h5><b>Available Colors:</b></h5>
+										<div class="product-colors">
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+					<!--Details-->
+					<!--FieldLayout-->
+					<div class="row pad-10">
+						<div class="col-xs-12">
+							<div class="labeltext">
+								<h5><b>{FieldCaption}:</b></h5>
+							</div>
+						</div>
+						<div class="col-xs-12">
+							<div class="product-input">
+								{FieldCaptionOptions}{Field}
+								{FieldScreenTip}
+								
+								<div class="row">
+									<div class="logo-icons hide">
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+			        <!--/FieldLayout-->
+			        <!--/Details-->
+
+			        <!-- <div class="free-proof">
+			        	<p class="small"><b><i>* Your logo will be embroidered on the left chest.</i></b></p>
+			        </div> -->
+
+			        <div class="tabs">
+						<ul class="nav nav-tabs" id="myTab" role="tablist">
+							<li class="nav-item active">
+								<a class="nav-link active" id="description-tab" data-toggle="tab" href="#description" role="tab" aria-controls="description" aria-selected="true" aria-expanded="true">Description</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="charges-tab" data-toggle="tab" href="#delivery" role="tab" aria-controls="delivery" aria-selected="true" aria-expanded="true">Delivery</a>
+							</li>
+							<li class="nav-item">
+								<a class="nav-link" id="delivery-tab" data-toggle="tab" href="#charges" role="tab" aria-controls="charges" aria-selected="false">Charges</a>
+							</li>
+						</ul>
+						<div class="tab-content" id="myTabContent">
+							<div class="tab-pane fade active in" id="description" role="tabpanel" aria-labelledby="description-tab">
+								<h5 class="details"><b>Product Details:</b></h5>
+								<div class="description-list">
+									<ul>
+										
+									</ul>
+								</div>
+
+								<div class="product-specsheet">
+									<h5>
+										<b>
+											<a target="_blank" href="">View Product Specsheet and Size Chart</a>
+										</b>
+									</h5>
+								</div>
+							</div>
+							<div class="tab-pane fade" id="delivery" role="tabpanel" aria-labelledby="delivery-tab">
+								<p></p>
+								<ul>
+									<li>Delivery of items take 12 to 15 business days as long as the inventory is available. If the inventory is not available we will contact you immediately.</li>
+									<li>Orders ship from Indianapolis, IN</li>
+								</ul>
+							</div>
+							<div class="tab-pane fade" id="charges" role="tabpanel" aria-labelledby="charges-tab">
+								<p></p>
+								<ul>
+									<li>Credit Cards are charged immediately after completing your order.</li>
+									<li><b class="text-danger">Because these products are personalized, returns will not be accepted.</b></li>
+									<li>Please make sure all your items are correct before submitting payment.</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!--BUTTONS-->
+		        <div class="row">
+		        	<div class="col-xs-12">
+				        <div class="buttons pull-right">
+							<input class="btn btn-primary" type="button" name="btnBack" id="btnBack" value="{BackButtonCaption}" onClick="window.history.back()">&nbsp;
+							<input class="btn btn-primary" type=submit name="btnSubmit" value ="{NextButtonCaption}">
+						</div>
+					</div>
+				</div>
+				<!--/BUTTONS-->
+			</div>
+		</div>
+	</div>
+
+	<table class="table details hide">
+        <!--ProfileCaptionHeader-->
+		<tr>
+			<td class=labeltext></td>
+			<td>
+				<table border="0" class=wrapper>
+					<tr>
+						<td></td>
+						<td>
+							<a style="cursor:hand" onClick="OpenLocator('EmployeeLocator.asp?Template_Id={Template_Id}&WebPortalId={WebPortal_Id}&ProfileCaption={ProfileCaption}')" nowrap>&nbsp;&nbsp;<u>{ProfileCaption}</u></a>
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<!--/ProfileCaptionHeader-->
+	</table>
+
+	<table class="table saveddata">
+		<!--SaveTemplateData-->
+		<tr>
+			<td>&nbsp;</td>
+		</tr>
+		<tr>
+			<td class=labeltext valign=top colspan="2">
+				<b><input type="checkbox" name="chkSave" id="chkSave" onclick="showSave(true)"> {SaveTemplateDataCaption}</b>
+			</td>
+		</tr>
+		<tr>
+			<td></td>
+			<td>
+				<table style="display:none" id="spnSave">
+					<tr>
+						<td>
+							<!--SavedTemplateData--><input type="radio" name="rdoSave"  id="rdoSaveAs" value="SaveAs" checked> <!--/SavedTemplateData-->Save As: </td><td><input type="text" name="txtSaveAs" id="txtSaveAs">
+						</td>
+					</tr>
+					<!--SavedTemplateData-->
+					<tr>
+						<td>
+							<input type="radio" name="rdoSave" id="rdoSaveOver" value="Overwrite"> Overwrite: 
+						</td>
+						<td>
+							<select name="cboSaveOver" id="cboSaveOver">
+								<option value="">{OptionPleaseSelectCaption}</option>
+								{PreviousSavedOptions}
+							</select>
+						</td>
+					</tr>
+					<!--/SavedTemplateData-->
+					<tr>
+						<td colspan="2">
+							<input type="checkbox" name="chkThis" id="chkThis"> {OptionThisTemplateCaption}
+						</td>
+					</tr>
+				</table>
+			</td>
+		</tr>
+		<!--/SaveTemplateData-->
+
+		<tr>
+			<td valign="top">
+				<table cellPadding=0 cellSpacing=0 width="100%" border=0>
+					
+				</table>
+			</td>
+		</tr>
+	</table>
+</form>
+
+<table class="table proof">
+	<tr>
+		<td>
+			
+		</td>
+	</tr>
+</table>
+<!--TabTableEnd-->

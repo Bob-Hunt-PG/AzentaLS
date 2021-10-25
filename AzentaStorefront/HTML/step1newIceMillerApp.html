@@ -1,4 +1,5 @@
 
+
 <SCRIPT SRC="include/validation.js" ID=clientEventHandlersJS LANGUAGE=javascript></SCRIPT>
 <script language="JavaScript">				
 	function functionOnLoad(){
@@ -526,7 +527,7 @@ function setOpacity(opacity, objObject)
 	// Safari 1.2, newer Firefox and Mozilla, CSS3
 	objObject.style.opacity = opacity/100;
 }
- 
+
 </script>
 
 <!--TabTableStart-->
@@ -548,29 +549,96 @@ function setOpacity(opacity, objObject)
 </form>
 <!--/DynamicCostCentres-->
 
-<!-- DIFFERENCE START -->
+
+<!-- ****DIFFERENCE START**** -->
+<div class="loading">
+	<div class="loading-background">
+		<div class="loading-text">
+			<h3>We are navigating to your product.</h3>
+			<h3>Please wait...</h3>
+		</div>
+		<div class="loading-icon">
+			<i class="fa fa-circle-o-notch fa-spin" aria-hidden="true"></i>
+		</div>
+	</div>
+</div>
+
 <form name="Form1" method="Post" onSubmit="return ValidData()">
 	<!--Style-->
-	<table class="table style">
+	<div class="col-sm-12">
+		<div class="row">
+			<!--FrontBackStyle-->
+			<div class="col-sm-6">
+				<div class="row">
+					<div class="front-back-container">
+						<div class="front-back-image">
+							<img id="img{frontback}" src="{imagesrc}" border="{imageborder}" alt="{imagealt}">
+							<div class="product-logo">
+								<img src="Files/BrokerBranding/prioritygear/Include/nike.png" alt="Nike">
+							</div>
+						</div>
+						<div id="SelectManyOptions{frontback}" class="front-back-select">
+							<select onchange="{styleonchange}" name="select{frontback}" id="select{frontback}">{options}</select>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-6">
+				<div class="front-back-details">
+					<div class="product-description">
+						<div class="descriptions">
+							<div class="description 354064">
+								<h4><b>Product Description</b></h4>
+								<h5><b>Name:</b> <span id="SelectOneOption{frontback}" class="front-back-title"></span></h5>
+								<div class="colors">
+									<h5><b>Available Colors:</b></h5>
+									<div class="product-colors">
+										<span class="color black" title="Black">&nbsp;</span>
+										<span class="color chlorophyll" title="Chlorophyll">&nbsp;</span>
+										<span class="color darkgrey" title="Dark Grey">&nbsp;</span>
+										<span class="color fairblue" title="Fair Blue">&nbsp;</span>
+										<span class="color midnightnavy" title="Midnight Navy">&nbsp;</span>
+										<span class="color photoblue" title="Photo Blue">&nbsp;</span>
+										<span class="color touryellow" title="Tour Yellow">&nbsp;</span>
+										<span class="color varsityred" title="Varsity Red">&nbsp;</span>
+										<span class="color varsityroyal" title="Varsity Royal">&nbsp;</span>
+										<span class="color white" title="White">&nbsp;</span>
+									</div>
+								</div>
+								<h5><b>Product Details:</b></h5>
+								<ul>
+									<li>An understated pebble texture meets high-performance moisture -wicking from Dri-FIT fabric in this Nike Golf style.</li>
+									<li>Tailored for a feminine fit and designed to keep you comfortably dry, features include:
+										<ul>
+											<li>Self-fabric collar</li>
+											<li>Four-button placket</li>
+											<li>Open hem sleeves</li>
+										</ul>
+									</li>
+									<li>Pearlized buttons are selected to complement the shirt color.</li>
+									<li>The contrast Swoosh design trademark is embroidered on the left sleeve.</li>
+									<li>Made of 3.9-ounce, 100% polyester.</li>
+								</ul>
+								<div class="product-specsheet">
+									<h5><b><a target="_blank" href="Files/BrokerBranding/prioritygear/Include/354064specsheet.pdf">View Product Specsheet</a></b></h5>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<!--/FrontBackStyle-->
+
+		</div>
+	</div>
+	<table class="table style hide">
 		<thead>
 			<tr>
 				<th colspan="2">{StyleHeading}</th>
 			</tr>
 		</thead>
 		<tbody>
-			<!--FrontBackStyle-->
-			<tr>
-				<td class="style-title">{{frontback}Caption}</td>
-				<td>
-					<div id=SelectOneOption{frontback}></div>
-					<div id=SelectManyOptions{frontback}>
-						<select onchange="{styleonchange}" name="select{frontback}" id="select{frontback}">{options}</select>
-					</div>
-        			<img id="img{frontback}" src="{imagesrc}" border="{imageborder}" alt="{imagealt}">
-				</td>
-			</tr>
-			<!--/FrontBackStyle-->
-<!-- DIFFERENCE END -->
+<!-- ***** DIFFERENCE END ***** -->
 
 
 			<tr id=trcopy style="display:{showcopy}">
@@ -582,7 +650,7 @@ function setOpacity(opacity, objObject)
 		</tbody>
 	</table>
 
-	<table class="table orderdetails" id="orderdetails">
+	<table class="table orderdetails hide" id="orderdetails">
 		<thead>
 			<tr>
 				<th colspan="3">{OrderDetailsHeading}</th>
