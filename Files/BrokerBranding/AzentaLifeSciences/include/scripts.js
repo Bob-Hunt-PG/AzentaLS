@@ -203,7 +203,7 @@ $(function() {
 						second = val.substring(3, 6), 
 						third = val.substring(6, 10);
 
-					$(this).val('+1 (' + first + ') ' + second + '.' + third);
+					$(this).val('+1 ' + first + '.' + second + '.' + third);
 				}
 			}
 		});
