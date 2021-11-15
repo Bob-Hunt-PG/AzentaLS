@@ -154,7 +154,7 @@
 			    bottom: -3px;
 			    width: 100px;
 			    height: 3px;
-			    background: #55c8d2;
+			    background: #6959a1;
 			}
 			
 			.help-text {
@@ -381,13 +381,13 @@
 			.nav .nav-links ul > li > .dropdown > a:hover,
 			.nav .nav-links ul > li > .dropdown ul li a:hover {
 				/* color: #0090bc; */
-				color: #55C8D2;
+				color: #6959a1;
 				cursor: pointer;
 			}
 
 			/* Creating hover effects for Azenta nav bar */
 			.nav-hover:hover{
-				color: #55C8D2;
+				color: #6959a1;
 			}
 
 			.nav .nav-links ul > li > .dropdown > a > .fa {
@@ -653,7 +653,7 @@
 			    bottom: -3px;
 			    width: 100px;
 			    height: 3px;
-			    background: #55c8D2;
+			    background: #6959a1;
 			}
 
 			.product-catalog .product-content h1 > b {
@@ -701,7 +701,7 @@
 			.product-catalog .product-content a > p {
 			    text-align: center;
 			    /* color: #cccccc; */
-				color: #78d2aa;
+				color: #6959a1;
 			    font-size: 12px;
 			}
 
@@ -1237,9 +1237,9 @@
 			#Color,
 			#Color ~ img,
 			#Color ~ br,
-			br {
+			/* br {
 				display: none;
-			}
+			} */
 
 			.extraorderfields p:nth-child(1), 
 			.extraorderfields p:nth-child(2) {
@@ -1564,7 +1564,7 @@ input[value="<< Main Menu"] {
 }
 
 .labeltext {
-	background: #55C8D2;
+	background: #6959a1;
 }
 
 .table.saveddata tr td {
@@ -1982,3 +1982,22 @@ input[value="<< Main Menu"] {
 .Lookup.Voucher .alert {
 	display: none;
    }
+
+.msgDiv{
+color: red;
+font-weight: bolder;
+font-size: larger;
+}
+
+a{
+	color: #6959a1;
+}
+
+.bootstrap-table tbody tr td:nth-of-type(3) a {
+    pointer-events: none;
+;
+}
+
+.fixed-table-container tbody tr:first-child td {
+    border-top: solid 1px #ddd;
+}
